@@ -1,0 +1,6 @@
+.hidden{
+    position: absolute;
+    visibility: hidden;
+    outline: none;
+    pointer-events: none;
+}

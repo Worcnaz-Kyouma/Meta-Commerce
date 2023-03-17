@@ -1,0 +1,37 @@
+Front-end{
+-Index: Tela de entrada padrão. Terá dois modos: Loja/Cliente. Baseando-se no modo que foi selecionado
+e esta sendo mostrado na tela o botão de login mandará para a tela de Login, usando variaveis do front-end
+para dizer se o click neste login veio da aba loja ou cliente.
+
+-Login: A partir do index, sabendo de qual aba foi clicado ele mostrara uma versao da tela de login.
+A tela de login de clientes tera o email cadastrado + senha para efetuar o login, assim como no login
+de lojas tambem, pois por esta aba sera onde os funcionarios iram logar tambem. Porem, na tela de login,
+caso seja de loja haverá um "input a mais"(simplesmente tirar do invisible) no formulario com o nome da loja
+ao qual o funcionario quer logar. Ainda na tela de login, haverá um botao para cadastrar usuario/loja.
+Baseando-se na variavel vinda do index ele mandará para o CadastroLoja ou CadastroUsuario.
+
+-CadastroLoja: Simplesmente um cadastro com validações necessarias. Para criar uma loja deve-se selecionar
+o seu usuario e colocar a senha ao lado. Caso nao tenha usuario crie um(seta azul do CadastroLoja->CadastroUsuario)
+
+-CadastroUsuario: Simplesmente um cadastro com validações necessarias. Haverá a possibilidade que o client no 
+browser chegou nesta pagina vindo da CadastroLoja(seta azul), caso sim, ao cadastrar ele deve retornar a tela do 
+CadastroLoja
+
+-CadastroFuncionario: Simplesmente um cadastro com validações necessarias. Todo funcionario deve ter um usuario 
+antes de ser cadastrado como funcionario na loja de alguem.
+
+-LobbyUsuario: Buscar loja acima. Caso esteja em branco ele pega o produto de todas as lojas e ordena "do mais 
+vendido ao menos vendido"(talvez nao desta forma). A esquerda podemos pesquisar um produto especifico ou usar
+os filtros ali destacados para encontrar o que queremos. Na direita temos o carrinho do cliente, tendo todos os 
+produtos que ele comprará de uma so vez
+
+-LobbyFuncionario: Ta escrito na tela do Planejamento(map), sem muitos detalhes por enquanto... 
+}
+
+Back-end{
+
+}
+
+Database{
+
+}
