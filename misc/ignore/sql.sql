@@ -42,7 +42,7 @@ VALUES(0, 'Frisia','nicolasprado0028@gmail.com','imgnicolasprado0028@gmail.com.p
 INSERT INTO market 
 VALUES(0, 'Pgtronic','nicolasprado0028@gmail.com','imgnicolasprado0028@gmail.com.png','2019-05-14','andrepika','Active','2012-01-01','2012-01-01');
 
-CREATE TABLE employer_relation(
+CREATE TABLE employer(
     pk_employer_relation    INT            NOT NULL AUTO_INCREMENT,
     fk_id_user              INT, 
     fk_id_market            INT, 
@@ -53,12 +53,46 @@ CREATE TABLE employer_relation(
     dt_creation             DATE,
     dt_update               DATE,
 
-    PRIMARY KEY(pk_employer_relation)
+    PRIMARY KEY(pk_employer)
 );
 
-INSERT INTO employer_relation 
+INSERT INTO employer 
 VALUES(0, 1, 4, 'Boss', '2023-03-07', '2012-01-01', '2012-01-01');
 
-INSERT INTO employer_relation 
+INSERT INTO employer 
 VALUES(0, 1, 5, 'Boss', '2023-03-07', '2012-01-01', '2012-01-01');
 --VALUES(0, 1, 1, 'Boss', '2023-03-07', '2012-01-01', '2012-01-01');
+
+CREATE TABLE product(
+    pk_id_product           INT             NOT NULL AUTO_INCREMENT,
+    fk_id_market            INT,
+    fk_id_category          INT,
+
+    nm_product              VARCHAR(255),
+    ds_product              VARCHAR(255),
+    vl_price                VARCHAR(255),
+    ds_mark                 VARCHAR(255),
+    dt_fabrication          DATE,
+    ie_selled               VARCHAR(50),
+
+    dt_creation             DATE,
+    dt_update               DATE,
+    ie_deleted              VARCHAR(50),
+
+    PRIMARY KEY(pk_id_product)
+)
+
+CREATE TABLE category(
+    pk_id_category          INT             NOT NULL AUTO_INCREMENT,
+    fk_id_market            INT,
+
+    nm_category             VARCHAR(255),
+    ds_category             VARCHAR(255),
+    cd_color                VARCHAR(255),
+
+    dt_creation             DATE,
+    dt_update               DATE,
+    ie_deleted              VARCHAR(50),
+
+    PRIMARY KEY(pk_id_category)
+)
