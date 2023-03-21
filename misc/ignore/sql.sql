@@ -59,7 +59,7 @@ CREATE TABLE employer(
 );
 
 INSERT INTO employer 
-VALUES(0, 1, 4, 'Boss', '2023-03-07', '2012-01-01', '2012-01-01');
+VALUES(0, 1, 4, 'Boss', '2023-03-07', 10000, '2012-01-01', '2012-01-01', 'NO');
 
 INSERT INTO employer 
 VALUES(0, 1, 5, 'Boss', '2023-03-07', '2012-01-01', '2012-01-01');

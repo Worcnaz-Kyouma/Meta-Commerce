@@ -1,3 +1,10 @@
+<?php
+    session_start();
+    echo $_SESSION['pk_id_user'];
+    echo "<br>";
+    echo $_SESSION['pk_id_market'];
+?>
+<!--
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -12,3 +19,4 @@
     <a href="categories.php">Categories</a>
 </body>
 </html>
+-->

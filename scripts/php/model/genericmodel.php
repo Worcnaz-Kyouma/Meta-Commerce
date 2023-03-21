@@ -5,8 +5,8 @@ class Generic extends Repository
 {
     /*DAO Methods*/
     //Select
-    public static function select($columns, $tables, $where){
-        $select = parent::getTemplateDynamicSelect($columns, $tables, $where);
+    public static function select($columns, $tables, $whereClause){
+        $select = parent::getTemplateDynamicSelect($columns, $tables, $whereClause);
 
         $statement = parent::executeQuery($select);
 

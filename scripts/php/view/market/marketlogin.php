@@ -1,3 +1,42 @@
+<?php
+    error_reporting(E_ERROR | E_WARNING | E_PARSE); 
+
+    require_once '../../model/marketmodel.php';
+    require_once '../../model/usermodel.php';
+    require_once '../../controller/marketcontroller.php';
+    require_once '../../controller/usercontroller.php';
+    require_once '../../controller/genericcontroller.php';
+
+    if(isset($_POST['submit'])){
+        $email      = $_POST['email'];
+        $password   = $_POST['password'];
+        $whereClause = "ds_email = " . "'" . $email . "'" . " and " . "cd_password = " . $password;
+        $user = UserController::select($whereClause)[0];
+
+        $nm_market = $_POST['market'];
+        $whereClause = "nm_market = " . "'" . $nm_market . "'";
+        $market = MarketController::select($whereClause)[0];
+
+        $column = "pk_id_employer";
+        $table = "employer";
+        $whereClause = "fk_id_user = " . $user->getPkIdUser() . " and " . "fk_id_market = " . $market->getPkIdMarket();
+        $idEmployer = GenericController::select($column, $table, $whereClause)[0]->pk_id_employer;
+
+
+
+        if(empty($idEmployer)){
+            echo "<p id='error'>Cannot find an employer with that email/password in this market</p>";
+        }
+        else{
+            session_start();
+            $_SESSION['pk_id_user'] = $user->getPkIdUser();
+            $_SESSION['pk_id_market'] = $market->getPkIdMarket();
+            header('Location: marketlobby.php');
+            die();
+        }
+    } 
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
