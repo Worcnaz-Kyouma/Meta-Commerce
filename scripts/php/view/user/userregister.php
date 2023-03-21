@@ -6,14 +6,38 @@ define("USERS_IMG_LOCAL", "/../../../../resources/usersimg/");
 
 require_once '../../model/usermodel.php';
 require_once '../../controller/usercontroller.php';
-function findUserByEmail($email){
-    
-    $relationColumns = array('ds_email');
-    $haveSingleQuoteBooleanArray = array(TRUE);
-    $logicalOperatores = array();
-    $values = array($email);
 
-    return UserController::findUsersByParameters(null, null, $relationColumns, $haveSingleQuoteBooleanArray, $logicalOperatores, $values);
+if (isset($_POST['submit'])) {
+    if(isValidEmail(htmlentities($_POST['ds_email']))){
+        $imgName = manageImgFromForm($_POST['ds_email']);
+
+        $_POST['pk_id_user'] = 0;
+
+        $_POST['nm_img'] = $imgName;
+
+        $_POST['dt_creation'] = date('Y-m-d');
+        $_POST['dt_update'] = date('Y-m-d');
+
+        unset($_POST['cd_password_repeat']);
+        unset($_POST['submit']);
+
+        $user = new User($_POST);
+        
+        UserController::persist($user);
+
+        header('Location: clientlogin.php');
+        die();
+    }
+    else{
+        echo "<p id=\"error\">Invalid email or already in use!</p>";
+    }
+
+}
+
+function findUserByEmail($email){
+    $whereClause = "ds_email = " . "'" . $email . "'";
+
+    return UserController::select($whereClause);
 }
 function isValidEmail($email){
     return filter_var($email, FILTER_VALIDATE_EMAIL) && empty(findUserByEmail($email));
@@ -45,33 +69,6 @@ function manageImgFromForm($email){
     );
 
     return $image_name;
-}
-
-if (isset($_POST['submit'])) {
-    if(isValidEmail(htmlentities($_POST['ds_email']))){
-        $imgName = manageImgFromForm($_POST['ds_email']);
-
-        $_POST['pk_id_user'] = 0;
-
-        $_POST['nm_img'] = $imgName;
-
-        $_POST['dt_creation'] = date('Y-m-d');
-        $_POST['dt_update'] = date('Y-m-d');
-
-        unset($_POST['cd_password_repeat']);
-        unset($_POST['submit']);
-
-        $user = new User($_POST);
-        
-        UserController::insertIntoUsersWithUserObject($user);
-
-        header('Location: clientlogin.php');
-        die();
-    }
-    else{
-        echo "<p id=\"error\">Invalid email or already in use!</p>";
-    }
-
 }
 ?>
 

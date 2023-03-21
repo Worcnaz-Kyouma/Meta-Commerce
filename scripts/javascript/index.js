@@ -1,11 +1,11 @@
-var actualMode = "client";
+var actualMode = "user";
 
 //Hidden class in client/market div logic and change mode between then 
 function changeMode(mode) {
     if (actualMode != mode) {
         removeHiddenOfClass(mode);
         if (mode == "market") {
-            concatenateHiddenInClass("client");
+            concatenateHiddenInClass("user");
         }
         else {
             concatenateHiddenInClass("market");

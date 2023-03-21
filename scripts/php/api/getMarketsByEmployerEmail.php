@@ -1,5 +1,5 @@
 <?php
-    require_once "../controller/marketcontroller.php";
+    require_once "../controller/genericcontroller.php";
     require_once "../controller/usercontroller.php";
 
     function convertToJSONArray($markets){
@@ -15,17 +15,17 @@
     $ds_email = $_POST['email'];
     $cd_password = $_POST['password'];
 
-    $relationColumns = array('ds_email', 'cd_password');
-    $haveSingleQuoteBooleanArray = array(TRUE, TRUE);
-    $logicOperators = array('and');
-    $values = array($ds_email, $cd_password);
+    $whereClause = "ds_email = " . "'" . $ds_email . "'" . " and " . "cd_password = " . "'" . $cd_password . "'";
 
-    $employers = UserController::findUsersByParameters(null, null, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values);
+    $employers = UserController::select($whereClause);
 
+    //$employer->getPkIdUser()
     if (!empty($employers)) {
         $employer = $employers[0];
 
-        $markets = MarketController::getEmployerMarkets($employer->getPkIdUser());
+        $whereClause = "m.pk_id_market = 'e.fk_id_market'" . " and " . "e.fk_id_user = " . $employer->getPkIdUser(); 
+
+        $markets = GenericController::select("*", array("market m", "employer e"), $whereClause);
 
         //Transforma para um array na formatacao JSON correta
         $marketsJSONFormat = convertToJSONArray($markets);

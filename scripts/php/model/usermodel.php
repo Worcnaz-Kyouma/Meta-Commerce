@@ -1,5 +1,23 @@
 <?php
 require_once "repository.php";
+define("TABLE_NAME", "user");
+define("PROPERTIES_NECESSITY_OF_SINGLE_QUOTES", array(
+    FALSE,  //pk_id_user
+    TRUE,   //nm_user
+    TRUE,   //cd_password
+    TRUE,   //ds_email
+    TRUE,   //dt_born
+    TRUE,   //nm_img
+    TRUE,   //cd_cep
+    TRUE,   //ds_country
+    TRUE,   //ds_state
+    TRUE,   //ds_city
+    TRUE,   //ds_address
+    FALSE,  //nr_address
+    TRUE,   //dt_creation
+    TRUE,   //dt_update
+    TRUE    //ie_deleted
+));
 class User extends Repository{
     private $pk_id_user;
     private $nm_user;
@@ -15,6 +33,7 @@ class User extends Repository{
     private $nr_address;
     private $dt_creation;
     private $dt_update;
+    private $ie_deleted;
     
     //Contructors
     function __construct(array $array = null) {
@@ -40,40 +59,43 @@ class User extends Repository{
     /*DAO Methods*/
 
     //Select
-    private static function getUserDynamicSelect($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values){
-        if($tables==null){
-            $tables = array('user');
-        }
-        return parent::getGeneralDynamicSelect($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values);
+    private static function getDynamicSelect($where){
+        return parent::getTemplateDynamicSelect("*", TABLE_NAME, $where);
     }
-    static function findUsersByParameters($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values){
-        $select = self::getUserDynamicSelect($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values);
-    
+    public static function select($where){
+        $select = self::getDynamicSelect($where);
+
         $statement = parent::executeQuery($select);
-    
-        $usersArray = self::fetchInUserObjectArray($statement);
-    
+
+        $usersArray = self::fetchInModelObjectArray($statement);
+
         return $usersArray;
-    }
+    }   
 
     //Insert
-    private static function getUserDynamicInsert($values){
-        return parent::getDynamicGeneralInsert('user', $values);
+    private static function getDynamicInsert($values){
+        return parent::getTemplateDynamicInsert(TABLE_NAME, $values, PROPERTIES_NECESSITY_OF_SINGLE_QUOTES);
     }
-    static function insertIntoUsersWithUserObject(User $user){
-        $values = parent::castObjectIntoArrayOfValuesFormattedForQuery($user);
-        
-        $insert = self::getUserDynamicInsert($values);
+    public static function persist($values){
+        $insert = self::getDynamicInsert($values);
 
-        return parent::executeQuery($insert);
+        parent::executeQuery($insert);
+    }
+
+    //Update
+    private static function getDynamicUpdate($columns, $values, $whereClause){
+        return parent::getTemplateDynamicUpdate(TABLE_NAME, $columns, $values, $whereClause);
+    }
+    private static function update($columns, $values, $whereClause=null){
+        $update = self::getDynamicUpdate($columns, $values, $whereClause);
+
+        parent::executeQuery($update);
     }
 
     //Misc
-    private static function fetchInUserObjectArray($statement){
-        return parent::fetchInObjectTemplateArray($statement, 'user');
+    private static function fetchInModelObjectArray($statement){
+        return parent::fetchInAnyObjectArray($statement, TABLE_NAME);
     }
 }
 
 ?>
-
-

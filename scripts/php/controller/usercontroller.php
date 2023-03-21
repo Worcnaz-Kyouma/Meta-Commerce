@@ -1,12 +1,12 @@
 <?php
-    require_once "../../model/usermodel.php";
+    require_once "../model/usermodel.php";
     class UserController{
-        static function findUsersByParameters($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values){
-            return User::findUsersByParameters($showColumns, $tables, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values);
+        static function select($whereClause){
+            return User::select($whereClause);
         }
 
-        static function insertIntoUsersWithUserObject(User $user){
-            return User::insertIntoUsersWithUserObject($user);
+        static function persist(User $user){
+            return User::persist($user);
         }
     }
 ?>

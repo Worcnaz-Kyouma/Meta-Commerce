@@ -8,19 +8,16 @@
         $email      = $_POST['email'];
         $password   = $_POST['password'];
 
-        $relationColumns = array('ds_email', 'cd_password');
-        $haveSingleQuoteBooleanArray = array(TRUE, TRUE);
-        $logicOperators = array('and');
-        $values = array($email, $password);
+        $whereClause = "ds_email = " . "'" . $email . "'" . " and " . "cd_password = " . $password;
 
-        $selectedClient = UserController::findUsersByParameters(null, null, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values)[0];
+        $user = UserController::select($whereClause)[0];
 
-        if(empty($selectedClient)){
+        if(empty($user)){
             echo "<p id='error'>Cannot find an user with that email/password</p>";
         }
         else{
             session_start();
-            $_SESSION['password'] = $selectedClient->getNmUser();
+            $_SESSION['password'] = $user->getNmUser();
             header('Location: clientlobby.php');
             die();
         }

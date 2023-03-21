@@ -1,27 +1,34 @@
 <?php
 require_once "repository.php";
-define("TABLE_NAME", "market");
+define("TABLE_NAME", "product");
 define("PROPERTIES_NECESSITY_OF_SINGLE_QUOTES", array(
-    FALSE,  //pk_id_market
-    TRUE,   //nm_market
-    TRUE,   //ds_email
-    TRUE,   //nm_img
-    TRUE,   //dt_market_creation
-    TRUE,   //ds_market
+    FALSE,  //pk_id_product
+    FALSE,  //fk_id_market
+    FALSE,  //fk_id_category
+    TRUE,   //nm_product
+    TRUE,   //ds_product
+    FALSE,  //vl_price
+    TRUE,   //ds_mark
+    TRUE,   //dt_fabrication
+    TRUE,   //ie_selled
     TRUE,   //dt_creation
     TRUE,   //dt_update
+    TRUE    //ie_deleted
 ));
-class Market extends Repository implements \JsonSerializable
+class Market extends Repository
 {
-    private $pk_id_market;
-    private $nm_market;
-    private $ds_email;
-    private $nm_img;
-    private $dt_market_creation;
-    private $ds_market;
-    private $ie_status;
+    private $pk_id_product;
+    private $fk_id_market;
+    private $fk_id_category;
+    private $nm_product;
+    private $ds_product;
+    private $vl_price;
+    private $ds_mark;
+    private $dt_fabrication;
+    private $ie_selled;
     private $dt_creation;
     private $dt_update;
+    private $ie_deleted;
 
     //Contructors
     function __construct(array $array = null){
@@ -32,23 +39,7 @@ class Market extends Repository implements \JsonSerializable
         }
     }
 
-    //JsonSerializable
-    public function jsonSerialize(){
-        $vars = get_object_vars($this);
-
-        return $vars;
-    }
-
     //Getters and Setters
-    public function getPkIdMarket(){
-        return $this->pk_id_market;
-    }
-    public function getNmMarket(){
-        return $this->nm_market;
-    }
-    public function getEmail(){
-        return $this->ds_email;
-    }
 
     /*DAO Methods*/
 
@@ -56,21 +47,21 @@ class Market extends Repository implements \JsonSerializable
     private static function getDynamicSelect($where){
         return parent::getTemplateDynamicSelect("*", TABLE_NAME, $where);
     }
-    public static function getMarketsByParameters($where){
+    public static function select($where){
         $select = self::getDynamicSelect($where);
 
         $statement = parent::executeQuery($select);
 
-        $marketsArray = self::fetchInMarketObjectArray($statement);
+        $productsArray = self::fetchInModelObjectArray($statement);
 
-        return $marketsArray;
+        return $productsArray;
     }   
 
     //Insert
     private static function getDynamicInsert($values){
         return parent::getTemplateDynamicInsert(TABLE_NAME, $values, PROPERTIES_NECESSITY_OF_SINGLE_QUOTES);
     }
-    private static function insertIntoMarketsWithValues($values){
+    private static function persist($values){
         $insert = self::getDynamicInsert($values);
 
         parent::executeQuery($insert);
@@ -80,14 +71,14 @@ class Market extends Repository implements \JsonSerializable
     private static function getDynamicUpdate($columns, $values, $whereClause){
         return parent::getTemplateDynamicUpdate(TABLE_NAME, $columns, $values, $whereClause);
     }
-    private static function updateMarketsWithParameters($columns, $values, $whereClause=null){
+    private static function update($columns, $values, $whereClause=null){
         $update = self::getDynamicUpdate($columns, $values, $whereClause);
 
         parent::executeQuery($update);
     }
 
     //Misc
-    private static function fetchInMarketObjectArray($statement){
+    private static function fetchInModelObjectArray($statement){
         return parent::fetchInAnyObjectArray($statement, TABLE_NAME);
     }
 

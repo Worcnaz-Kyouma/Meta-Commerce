@@ -43,17 +43,19 @@ INSERT INTO market
 VALUES(0, 'Pgtronic','nicolasprado0028@gmail.com','imgnicolasprado0028@gmail.com.png','2019-05-14','andrepika','Active','2012-01-01','2012-01-01');
 
 CREATE TABLE employer(
-    pk_employer_relation    INT            NOT NULL AUTO_INCREMENT,
+    pk_id_employer          INT            NOT NULL AUTO_INCREMENT,
     fk_id_user              INT, 
     fk_id_market            INT, 
 
     ds_role                 VARCHAR(255),
     dt_hiring               DATE,
+    vl_salary               FLOAT, 
     
     dt_creation             DATE,
     dt_update               DATE,
+    ie_deleted              VARCHAR(50),
 
-    PRIMARY KEY(pk_employer)
+    PRIMARY KEY(pk_id_employer)
 );
 
 INSERT INTO employer 

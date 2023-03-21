@@ -5,32 +5,32 @@ class Generic extends Repository
 {
     /*DAO Methods*/
     //Select
-    public static function getGenericsByParameters($select, $tables, $where){
-        $select = parent::getTemplateDynamicSelect($select, $tables, $where);
+    public static function select($columns, $tables, $where){
+        $select = parent::getTemplateDynamicSelect($columns, $tables, $where);
 
         $statement = parent::executeQuery($select);
 
-        $objArray = self::fetchInGenericObjectArray($statement);
+        $objArray = self::fetchInModelObjectArray($statement);
 
-        return;
+        return $objArray;
     }   
 
     //Insert
-    private static function insertIntoGenericWithValues($table, $values, $columns=null, $haveSingleQuotes=null){
+    public static function persist($table, $values, $columns=null, $haveSingleQuotes=null){
         $insert = parent::getTemplateDynamicInsert($table, $values, $haveSingleQuotes, $columns);
 
         parent::executeQuery($insert);
     }
 
     //Update
-    private static function updateGenericsWithParameters($table, $columns, $values, $whereClause=null){
+    private static function update($table, $columns, $values, $whereClause=null){
         $update = parent::getTemplateDynamicUpdate($table, $columns, $values, $whereClause);
 
         parent::executeQuery($update);
     }
 
     //Misc
-    private static function fetchInGenericObjectArray($statement){
+    private static function fetchInModelObjectArray($statement){
         return parent::fetchInAnyObjectArray($statement, "stdClass");
     }
 

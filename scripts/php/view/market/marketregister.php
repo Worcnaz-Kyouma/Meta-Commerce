@@ -8,23 +8,35 @@ require_once '../../model/marketmodel.php';
 require_once '../../model/usermodel.php';
 require_once '../../controller/marketcontroller.php';
 require_once '../../controller/usercontroller.php';
-require_once '../../controller/repositorycontroller.php';
+require_once '../../controller/genericcontroller.php';
 
-function findMarketByEmail($email)
-{
-    $relationColumns                = array('ds_email');
-    $haveSingleQuoteBooleanArray    = array(TRUE);
-    $logicalOperatores              = array();
-    $values                         = array($email);
+if (isset($_POST['submit'])) {
+    if (isValidEmail(htmlentities($_POST['ds_email']))) {
+        unset($_POST['submit']);
 
-    return MarketController::findMarketsByParameters(null, null, $relationColumns, $haveSingleQuoteBooleanArray, $logicalOperatores, $values);
+        $user = getUser();
+
+        insertIntoMarket();
+
+        $market = getMarket();
+
+        insertIntoMarketEmployerRelation($user, $market);
+
+        header('Location: marketlogin.php');
+        die();
+    } else {
+        echo "<p id=\"error\">Invalid email or already in use!</p>";
+    }
 }
-function isValidEmail($email)
-{
+
+function findMarketByEmail($email){
+    $whereClause = "ds_email = " . "'" . $email . "'";
+    return MarketController::select($whereClause);
+}
+function isValidEmail($email){
     return filter_var($email, FILTER_VALIDATE_EMAIL) && empty(findMarketByEmail($email));
 }
-function manageImgFromForm($email)
-{
+function manageImgFromForm($email){
     // Here we have an weakness for DoS attack, because i dont limit the size of archive sended from form
 
     // Get reference to uploaded image
@@ -52,7 +64,6 @@ function manageImgFromForm($email)
 
     return $image_name;
 }
-
 function insertIntoMarket(){
     $imgName = manageImgFromForm($_POST['ds_email']);
 
@@ -66,24 +77,21 @@ function insertIntoMarket(){
 
     $_POST['dt_creation'] = date('Y-m-d');
     $_POST['dt_update'] = date('Y-m-d');
+    $_POST['ie_deleted'] = "FALSE";
 
     $market = new Market($_POST);
 
-    MarketController::insertIntoMarketsWithMarketObject($market);
+    MarketController::persist($market);
 
     return $market;
 }
-
 function getUser(){
     $ds_email = $_POST['ds_email_user'];
     $cd_password = $_POST['cd_password'];
 
-    $relationColumns = array('ds_email', 'cd_password');
-    $haveSingleQuoteBooleanArray = array(true, true);
-    $logicOperators = array('and');
-    $values = array($ds_email, $cd_password);
+    $whereClause = "ds_email = " . "'" . $ds_email . "'" . " and " . "'" . $cd_password . "'";
 
-    $users = UserController::findUsersByParameters(null, null, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values);
+    $users = UserController::select($whereClause);
 
     unset($_POST['ds_email_user']);
     unset($_POST['cd_password']);
@@ -94,47 +102,27 @@ function getUser(){
 function getMarket(){
     $nm_market = $_POST['nm_market'];
 
-    $relationColumns = array('nm_market');
-    $haveSingleQuoteBooleanArray = array(true);
-    $logicOperators = array();
-    $values = array($nm_market);
+    $whereClause = "nm_market = " . "'" . $nm_market . "'";
 
-    $markets = MarketController::findMarketsByParameters(null, null, $relationColumns, $haveSingleQuoteBooleanArray, $logicOperators, $values);
+    $markets = MarketController::select($whereClause);
 
     return $markets[0];
 }
 
 function insertIntoMarketEmployerRelation($user, $market){
-    $employerMarketRelationObject = new stdClass();
+    $employer = new stdClass();
 
-    $employerMarketRelationObject->pk_employer_relation = 0;
-    $employerMarketRelationObject->fk_id_user = $user->getPkIdUser();
-    $employerMarketRelationObject->fk_id_market = $market->getPkIdMarket();
-    $employerMarketRelationObject->ds_role = 'Boss';
-    $employerMarketRelationObject->dt_hiring = date('Y-m-d');
-    $employerMarketRelationObject->dt_creation = date('Y-m-d');
-    $employerMarketRelationObject->dt_update = date('Y-m-d');
+    $employer->pk_employer_relation = 0;
+    $employer->fk_id_user = $user->getPkIdUser();
+    $employer->fk_id_market = $market->getPkIdMarket();
+    $employer->ds_role = "'Boss'";
+    $employer->dt_hiring = "'" . date('Y-m-d') . "'";
+    $employer->vl_salary = 0;
+    $employer->dt_creation = "'" . date('Y-m-d') . "'";
+    $employer->dt_update = "'" . date('Y-m-d') . "'";
+    $employer->ie_deleted = "'FALSE'";
 
-    RepositoryController::insertIntoTableWithObject('employer_relation', $employerMarketRelationObject);
-}
-
-if (isset($_POST['submit'])) {
-    if (isValidEmail(htmlentities($_POST['ds_email']))) {
-        unset($_POST['submit']);
-
-        $user = getUser();
-
-        insertIntoMarket();
-
-        $market = getMarket();
-
-        insertIntoMarketEmployerRelation($user, $market);
-
-        header('Location: marketlogin.php');
-        die();
-    } else {
-        echo "<p id=\"error\">Invalid email or already in use!</p>";
-    }
+    GenericController::persist("employer", $employer);
 }
 ?>
 

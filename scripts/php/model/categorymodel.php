@@ -1,6 +1,6 @@
 <?php
 require_once "repository.php";
-define("TABLE_NAME", "market");
+define("TABLE_NAME", "category");
 define("PROPERTIES_NECESSITY_OF_SINGLE_QUOTES", array(
     FALSE,  //pk_id_market
     TRUE,   //nm_market
@@ -12,15 +12,13 @@ define("PROPERTIES_NECESSITY_OF_SINGLE_QUOTES", array(
     TRUE,   //dt_update
     TRUE    //ie_deleted
 ));
-class Market extends Repository implements \JsonSerializable
+class Category extends Repository
 {
-    private $pk_id_market;
-    private $nm_market;
-    private $ds_email;
-    private $nm_img;
-    private $dt_market_creation;
-    private $ds_market;
-    private $ie_status;
+    private $pk_id_category;
+    private $fk_market;
+    private $nm_category;
+    private $ds_category;
+    private $cd_color;
     private $dt_creation;
     private $dt_update;
     private $ie_deleted;
@@ -34,23 +32,7 @@ class Market extends Repository implements \JsonSerializable
         }
     }
 
-    //JsonSerializable
-    public function jsonSerialize(){
-        $vars = get_object_vars($this);
-
-        return $vars;
-    }
-
     //Getters and Setters
-    public function getPkIdMarket(){
-        return $this->pk_id_market;
-    }
-    public function getNmMarket(){
-        return $this->nm_market;
-    }
-    public function getEmail(){
-        return $this->ds_email;
-    }
 
     /*DAO Methods*/
 
@@ -63,16 +45,16 @@ class Market extends Repository implements \JsonSerializable
 
         $statement = parent::executeQuery($select);
 
-        $marketsArray = self::fetchInModelObjectArray($statement);
+        $categoriesArray = self::fetchInModelObjectArray($statement);
 
-        return $marketsArray;
+        return $categoriesArray;
     }   
 
     //Insert
     private static function getDynamicInsert($values){
         return parent::getTemplateDynamicInsert(TABLE_NAME, $values, PROPERTIES_NECESSITY_OF_SINGLE_QUOTES);
     }
-    public static function persist($values){
+    private static function persist($values){
         $insert = self::getDynamicInsert($values);
 
         parent::executeQuery($insert);
