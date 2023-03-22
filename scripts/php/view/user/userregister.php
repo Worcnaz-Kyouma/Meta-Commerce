@@ -4,7 +4,6 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 //CONSTANTS
 define("USERS_IMG_LOCAL", "/../../../../resources/usersimg/");
 
-require_once '../../model/usermodel.php';
 require_once '../../controller/usercontroller.php';
 
 if (isset($_POST['submit'])) {

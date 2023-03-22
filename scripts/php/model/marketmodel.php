@@ -1,19 +1,20 @@
 <?php
 require_once "repository.php";
-define("TABLE_NAME", "market");
-define("PROPERTIES_NECESSITY_OF_SINGLE_QUOTES", array(
-    FALSE,  //pk_id_market
-    TRUE,   //nm_market
-    TRUE,   //ds_email
-    TRUE,   //nm_img
-    TRUE,   //dt_market_creation
-    TRUE,   //ds_market
-    TRUE,   //dt_creation
-    TRUE,   //dt_update
-    TRUE    //ie_deleted
-));
 class Market extends Repository implements \JsonSerializable
 {
+    const TABLE_NAME = "market";
+    const PROPERTIES_NECESSITY_OF_SINGLE_QUOTES = array(
+        FALSE,  //pk_id_market
+        TRUE,   //nm_market
+        TRUE,   //ds_email
+        TRUE,   //nm_img
+        TRUE,   //dt_market_creation
+        TRUE,   //ds_market
+        TRUE,   //dt_creation
+        TRUE,   //dt_update
+        TRUE    //ie_deleted
+    );
+
     private $pk_id_market;
     private $nm_market;
     private $ds_email;
@@ -56,7 +57,7 @@ class Market extends Repository implements \JsonSerializable
 
     //Select
     private static function getDynamicSelect($where){
-        return parent::getTemplateDynamicSelect("*", TABLE_NAME, $where);
+        return parent::getTemplateDynamicSelect("*", self::TABLE_NAME, $where);
     }
     public static function select($where){
         $select = self::getDynamicSelect($where);
@@ -70,7 +71,7 @@ class Market extends Repository implements \JsonSerializable
 
     //Insert
     private static function getDynamicInsert($values){
-        return parent::getTemplateDynamicInsert(TABLE_NAME, $values, PROPERTIES_NECESSITY_OF_SINGLE_QUOTES);
+        return parent::getTemplateDynamicInsert(self::TABLE_NAME, $values, self::PROPERTIES_NECESSITY_OF_SINGLE_QUOTES);
     }
     public static function persist($values){
         $insert = self::getDynamicInsert($values);
@@ -80,7 +81,7 @@ class Market extends Repository implements \JsonSerializable
 
     //Update
     private static function getDynamicUpdate($columns, $values, $whereClause){
-        return parent::getTemplateDynamicUpdate(TABLE_NAME, $columns, $values, $whereClause);
+        return parent::getTemplateDynamicUpdate(self::TABLE_NAME, $columns, $values, $whereClause);
     }
     private static function update($columns, $values, $whereClause=null){
         $update = self::getDynamicUpdate($columns, $values, $whereClause);
@@ -90,7 +91,7 @@ class Market extends Repository implements \JsonSerializable
 
     //Misc
     private static function fetchInModelObjectArray($statement){
-        return parent::fetchInAnyObjectArray($statement, TABLE_NAME);
+        return parent::fetchInAnyObjectArray($statement, self::TABLE_NAME);
     }
 
 }

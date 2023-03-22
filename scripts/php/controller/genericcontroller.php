@@ -1,5 +1,5 @@
 <?php
-    require_once "../model/genericmodel.php";
+    require_once "C:\\xampp\htdocs\shortcode\Projects\Meta-Commerce\scripts\php\model\genericmodel.php";
 
     class GenericController{
         static function select($columns, $tables, $whereClause){

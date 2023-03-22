@@ -1,22 +1,23 @@
 <?php
 require_once "repository.php";
-define("TABLE_NAME", "product");
-define("PROPERTIES_NECESSITY_OF_SINGLE_QUOTES", array(
-    FALSE,  //pk_id_product
-    FALSE,  //fk_id_market
-    FALSE,  //fk_id_category
-    TRUE,   //nm_product
-    TRUE,   //ds_product
-    FALSE,  //vl_price
-    TRUE,   //ds_mark
-    TRUE,   //dt_fabrication
-    TRUE,   //ie_selled
-    TRUE,   //dt_creation
-    TRUE,   //dt_update
-    TRUE    //ie_deleted
-));
-class Market extends Repository
+class Product extends Repository
 {
+    const TABLE_NAME = "product";
+    const PROPERTIES_NECESSITY_OF_SINGLE_QUOTES = array(
+        FALSE,  //pk_id_product
+        FALSE,  //fk_id_market
+        FALSE,  //fk_id_category
+        TRUE,   //nm_product
+        TRUE,   //ds_product
+        FALSE,  //vl_price
+        TRUE,   //ds_mark
+        TRUE,   //dt_fabrication
+        TRUE,   //ie_selled
+        TRUE,   //dt_creation
+        TRUE,   //dt_update
+        TRUE    //ie_deleted
+    );
+
     private $pk_id_product;
     private $fk_id_market;
     private $fk_id_category;
@@ -45,7 +46,7 @@ class Market extends Repository
 
     //Select
     private static function getDynamicSelect($where){
-        return parent::getTemplateDynamicSelect("*", TABLE_NAME, $where);
+        return parent::getTemplateDynamicSelect("*", self::TABLE_NAME, $where);
     }
     public static function select($where){
         $select = self::getDynamicSelect($where);
@@ -59,7 +60,7 @@ class Market extends Repository
 
     //Insert
     private static function getDynamicInsert($values){
-        return parent::getTemplateDynamicInsert(TABLE_NAME, $values, PROPERTIES_NECESSITY_OF_SINGLE_QUOTES);
+        return parent::getTemplateDynamicInsert(self::TABLE_NAME, $values, self::PROPERTIES_NECESSITY_OF_SINGLE_QUOTES);
     }
     private static function persist($values){
         $insert = self::getDynamicInsert($values);
@@ -69,7 +70,7 @@ class Market extends Repository
 
     //Update
     private static function getDynamicUpdate($columns, $values, $whereClause){
-        return parent::getTemplateDynamicUpdate(TABLE_NAME, $columns, $values, $whereClause);
+        return parent::getTemplateDynamicUpdate(self::TABLE_NAME, $columns, $values, $whereClause);
     }
     private static function update($columns, $values, $whereClause=null){
         $update = self::getDynamicUpdate($columns, $values, $whereClause);
@@ -79,7 +80,7 @@ class Market extends Repository
 
     //Misc
     private static function fetchInModelObjectArray($statement){
-        return parent::fetchInAnyObjectArray($statement, TABLE_NAME);
+        return parent::fetchInAnyObjectArray($statement, self::TABLE_NAME);
     }
 
 }

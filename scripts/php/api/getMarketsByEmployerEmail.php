@@ -1,14 +1,17 @@
 <?php
+    error_reporting(E_ERROR | E_WARNING | E_PARSE);
+
     require_once "../controller/genericcontroller.php";
     require_once "../controller/usercontroller.php";
     require_once "../model/marketmodel.php";
     require_once "../model/usermodel.php";
 
-    function convertToJSONArray($markets){
+//    $arr = array('sugoma');
+//    echo json_encode($arr);
+    function convertToJSONArray(array $markets){
         $marketsJSONFormat = array();
 
         for($index=0; $index<count($markets); $index++){
-            //aqui ta dando o erro
             $marketsJSONFormat[$index] = get_object_vars($markets[$index]);
         }
         
@@ -34,13 +37,11 @@
         $marketsJSONFormat = convertToJSONArray($markets);
 
         header('HTTP/1.1 200 Ok');
-        //echo json_encode(array("sus", "sus"));
         echo json_encode($marketsJSONFormat);
 
         return $markets;
     } else {
         header('HTTP/1.1 200 Ok');
-        //echo json_encode(array("sus"));
         echo json_encode(null);
         return null;
     }

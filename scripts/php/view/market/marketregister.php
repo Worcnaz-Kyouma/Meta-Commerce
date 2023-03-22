@@ -4,8 +4,6 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 //CONSTANTS
 define("MARKETS_IMG_LOCAL", "/../../../../resources/marketsimg/");
 
-require_once '../../model/marketmodel.php';
-require_once '../../model/usermodel.php';
 require_once '../../controller/marketcontroller.php';
 require_once '../../controller/usercontroller.php';
 require_once '../../controller/genericcontroller.php';
