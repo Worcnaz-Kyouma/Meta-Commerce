@@ -8,7 +8,8 @@
     if(isset($_POST['submit'])){
         $email      = $_POST['email'];
         $password   = $_POST['password'];
-        $whereClause = "ds_email = " . "'" . $email . "'" . " and " . "cd_password = " . $password;
+        $whereClause = "ds_email = " . "'" . $email . "'" . " and " . "cd_password = " . "'" . $password . "'";
+        echo $whereClause;
         $user = UserController::select($whereClause)[0];
 
         $nm_market = $_POST['market'];
@@ -19,8 +20,6 @@
         $table = "employer";
         $whereClause = "fk_id_user = " . $user->getPkIdUser() . " and " . "fk_id_market = " . $market->getPkIdMarket();
         $idEmployer = GenericController::select($column, $table, $whereClause)[0]->pk_id_employer;
-
-
 
         if(empty($idEmployer)){
             echo "<p id='error'>Cannot find an employer with that email/password in this market</p>";
