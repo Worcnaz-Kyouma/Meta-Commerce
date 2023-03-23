@@ -6,22 +6,18 @@
     require_once '../../controller/genericcontroller.php';
 
     if(isset($_POST['submit'])){
-        $email      = $_POST['email'];
-        $password   = $_POST['password'];
-        $whereClause = "ds_email = " . "'" . $email . "'" . " and " . "cd_password = " . "'" . $password . "'";
-        echo $whereClause;
-        $user = UserController::select($whereClause)[0];
+        $user = getUser($_POST['email'], $_POST['password']);
+        $error=validate($user);
 
-        $nm_market = $_POST['market'];
-        $whereClause = "nm_market = " . "'" . $nm_market . "'";
-        $market = MarketController::select($whereClause)[0];
+        $market = getMarket($_POST['market']);
+        $error=validate($market);
 
-        $column = "pk_id_employer";
-        $table = "employer";
-        $whereClause = "fk_id_user = " . $user->getPkIdUser() . " and " . "fk_id_market = " . $market->getPkIdMarket();
-        $idEmployer = GenericController::select($column, $table, $whereClause)[0]->pk_id_employer;
+        if(!$error){
+            $idEmployer = getEmployerId($user->getPkIdUser(), $market->getPkIdMarket());
+            $error=validate($idEmployer);
+        }
 
-        if(empty($idEmployer)){
+        if($error){
             echo "<p id='error'>Cannot find an employer with that email/password in this market</p>";
         }
         else{
@@ -32,6 +28,27 @@
             die();
         }
     } 
+
+    function getUser($ds_email, $cd_password){
+        $whereClause = "ds_email = " . "'" . $ds_email . "'" . " and " . "cd_password = " . "'" . $cd_password . "'";
+        $user = UserController::select($whereClause)[0];
+        return $user;
+    }
+    function getMarket($nm_market){
+        $whereClause = "nm_market = " . "'" . $nm_market . "'";
+        $market = MarketController::select($whereClause)[0];
+        return $market;
+    }
+    function getEmployerId($fk_id_user, $fk_id_market){
+        $column = "pk_id_employer";
+        $table = "employer";
+        $whereClause = "fk_id_user = " . $fk_id_user . " and " . "fk_id_market = " . $fk_id_market;
+        $idEmployer = GenericController::select($column, $table, $whereClause)[0]->pk_id_employer;
+        return $idEmployer;
+    }
+    function validate($var){
+        return empty($var);
+    }
 ?>
 
 <!DOCTYPE html>
