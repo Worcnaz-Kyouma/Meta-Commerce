@@ -59,7 +59,7 @@ function getAllEmployers($fk_id_market){
         <?php
         foreach($marketEmployers as $employer){
             echo "
-            <tr onclick=\"sendToEmployerPage($employer->pk_id_employer)\">
+            <tr onclick='location.href = \"employer.php?id=$employer->pk_id_employer\";'>
                 <td>$employer->pk_id_employer</td>
                 <td>$employer->nm_user</td>
                 <td>$employer->ds_role</td>
@@ -69,7 +69,7 @@ function getAllEmployers($fk_id_market){
         }
         ?>
     </table>
-    <div onclick="sendToEmployerPage()" class="end-of-table" style="text-align: center; border: 1px solid #000000; border-top: 0px;">+</div>
+    <div onclick="location.href = 'employer.php'" class="end-of-table" style="text-align: center; border: 1px solid #000000; border-top: 0px;">+</div>
 
     <script src="../../../javascript/employers.js"></script>
 </body>
