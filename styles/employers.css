@@ -1,0 +1,20 @@
+table{
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td{
+    border: 1px solid;
+  }
+  tr:not(:first-child), .end-of-table{
+    cursor: pointer;
+  }
+  tr:hover:not(:first-child), .end-of-table:hover{
+    background-color: rgb(255, 244, 230);
+  }
+  tr:active:not(:first-child), .end-of-table:active{
+    background-color: rgb(139, 255, 201);
+  }
+  
+  /*.end-of-table{
+    background-color: rgb(139, 255, 201);
+  }*/
