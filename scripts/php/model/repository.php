@@ -78,7 +78,7 @@ class Repository{
         $query .= "SET " . self::concatenateColumnValue($columns, $values) . " ";
 
         if($whereClause!=null){
-            $query .= "TABLE " . $whereClause;
+            $query .= "WHERE " . $whereClause;
         }
     
         return $query;

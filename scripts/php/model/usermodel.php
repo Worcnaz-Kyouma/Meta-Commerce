@@ -52,8 +52,14 @@ class User extends Repository{
     public function getNmUser(){
         return $this->nm_user;
     } 
+    public function getDsEmail(){
+        return $this->ds_email;
+    }
     public function getPassword(){
         return $this->cd_password;
+    } 
+    public function getNmImg(){
+        return $this->nm_img;
     } 
 
 

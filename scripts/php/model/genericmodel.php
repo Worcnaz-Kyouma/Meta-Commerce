@@ -23,7 +23,7 @@ class Generic extends Repository
     }
 
     //Update
-    private static function update($table, $columns, $values, $whereClause=null){
+    public static function update($table, $columns, $values, $whereClause=null){
         $update = parent::getTemplateDynamicUpdate($table, $columns, $values, $whereClause);
 
         parent::executeQuery($update);

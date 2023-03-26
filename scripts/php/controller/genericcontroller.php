@@ -9,5 +9,9 @@
         static function persist($table, $values, $columns=null, $haveSingleQuotes=null){
             return Generic::persist($table, $values, $columns, $haveSingleQuotes);
         }
+
+        static function update($table, $columns, $values, $whereClause=null){
+            return Generic::update($table, $columns, $values, $whereClause);
+        }
     }
 ?>
