@@ -24,7 +24,7 @@ if (isset($_POST['submit'])) {
         
         UserController::persist($user);
 
-        header('Location: clientlogin.php');
+        header('Location: userlogin.php');
         die();
     }
     else{

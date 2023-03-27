@@ -38,53 +38,100 @@ if(isset($_GET['id'])){
 
 if (isset($_POST['submit'])) {
     if($_POST['submit'] == 'Submit'){
-        $employerData = array();
-
         $newEmployer = getEmployerByEmail($_POST['ds_email']);
-        if(empty($newEmployer)){
+        if(validateNewEmployer($_POST['submit'], $_SESSION['pk_id_market'], $newEmployer->getPkIdUser())){
+            $employerData = array();
+
+            if(empty($newEmployer)){
+                header('Location: employers.php');
+                die();
+            }
+
+            $employerData['pk_id_employer'] = 0;
+
+            $employerData['fk_id_user'] = $newEmployer->getPkIdUser();
+
+            $employerData['fk_id_market'] = $market->getPkIdMarket();
+
+            $employerData['ds_role'] = "'" . $_POST['ds_role'] . "'";
+
+            $employerData['dt_hiring'] = "'" . date('Y-m-d') . "'";
+
+            $employerData['vl_salary'] = $_POST['vl_salary'];
+
+            $employerData['dt_creation'] = "'" . date('Y-m-d') . "'";
+            $employerData['dt_update'] = "'" . date('Y-m-d') . "'";
+            $employerData['ie_deleted'] =  "'NO'";
+
+            GenericController::persist('employer', $employerData);
+
             header('Location: employers.php');
             die();
         }
-
-        $employerData['pk_id_employer'] = 0;
-
-        $employerData['fk_id_user'] = $newEmployer->getPkIdUser();
-
-        $employerData['fk_id_market'] = $market->getPkIdMarket();
-
-        $employerData['ds_role'] = "'" . $_POST['ds_role'] . "'";
-
-        $employerData['dt_hiring'] = "'" . date('Y-m-d') . "'";
-
-        $employerData['vl_salary'] = $_POST['vl_salary'];
-
-        $employerData['dt_creation'] = "'" . date('Y-m-d') . "'";
-        $employerData['dt_update'] = "'" . date('Y-m-d') . "'";
-        $employerData['ie_deleted'] =  "'NO'";
-
-        GenericController::persist('employer', $employerData);
-
-        header('Location: employers.php');
-        die();
+        else{
+            echo "<p id=\"error\">Invalid new employer!</p>";
+        }
     }//New employer
     else{
         if($_POST['submit'] == 'Update'){
-            $employerData = array();
-            $employerData["ds_role"] = "'" . $_POST["ds_role"] . "'";
-            $employerData["vl_salary"] = $_POST["vl_salary"];
-            updateEmployer($employerData);
-            header('Location: employers.php');
-            die();
+            if(validateChangeEmployer($_SESSION['pk_id_market'], $_GET['id'])){
+                $employerData = array();
+                $employerData["ds_role"] = "'" . $_POST["ds_role"] . "'";
+                $employerData["vl_salary"] = $_POST["vl_salary"];
+                $employerData["dt_update"] = "'" . date('Y-m-d') . "'";
+                updateEmployer($employerData);
+                header('Location: employers.php');
+                die();
+            }
+            else{
+                echo "<p id=\"error\">Invalid change to employer " . $_GET["id"] . "</p>";
+            }
         }//Update employer
         else{
-            $dismiss = array("ie_deleted" => "'YES'");
-            updateEmployer($dismiss);
-            header('Location: employers.php');
-            die();
+            if(validateChangeEmployer($_SESSION['pk_id_market'], $_GET['id'])){
+                $dismiss = array("ie_deleted" => "'YES'", "dt_update" => "'" . date('Y-m-d') . "'");
+                updateEmployer($dismiss);
+                header('Location: employers.php');
+                die();
+            }
+            else{
+                echo "<p id=\"error\">Invalid change to employer " . $_GET["id"] . "</p>";
+            }
         }//Dismiss employer
     }
 }//Saving form
 
+function validateChangeEmployer($fk_id_market, $pk_id_employer){
+    $valid = true;
+
+    $column = "e.*";
+    $table = "employer e";
+    $whereClause = "e.fk_id_market = " . $fk_id_market . " and " . "e.pk_id_employer = ". $pk_id_employer . " and " . "e.ie_deleted = 'NO'"; 
+    $oldEmployer = GenericController::select($column, $table, $whereClause)[0];
+    if(empty($oldEmployer)){
+        $valid = false;
+    }
+
+    if($oldEmployer->ds_role == "Boss" && ($_POST["ds_role"] == "Employer" || $_POST['submit'] == 'Dismiss')){
+        $column = "e.pk_id_employer";
+        $table = "employer e";
+        $whereClause = "e.fk_id_market = " . $fk_id_market . " and " . "e.ds_role = 'Boss'" . " and " . "e.ie_deleted = 'NO'"; 
+        $numOfBoss = GenericController::select($column, $table, $whereClause);
+        if(count($numOfBoss)<2)
+            $valid = false;
+    }
+    return $valid;
+}
+function validateNewEmployer($fk_id_market, $fk_id_user){
+    $column = "e.pk_id_employer";
+    $table = "employers e";
+    $whereClause = "e.fk_id_market = " . $fk_id_market . " and " . "e.fk_id_user = ". $fk_id_user . " and " . "e.ie_deleted = 'NO'"; 
+    $numOfEmployers = GenericController::select($column, $table, $whereClause);
+    if(!empty($numOfEmployers))
+        return false;
+    else
+        return true;
+}
 function getEmployerByPK($pk_id_user){
     $whereClause = "pk_id_user = " . $pk_id_user;
     return UserController::select($whereClause)[0];
