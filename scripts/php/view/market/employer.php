@@ -39,7 +39,7 @@ if(isset($_GET['id'])){
 if (isset($_POST['submit'])) {
     if($_POST['submit'] == 'Submit'){
         $newEmployer = getEmployerByEmail($_POST['ds_email']);
-        if(validateNewEmployer($_POST['submit'], $_SESSION['pk_id_market'], $newEmployer->getPkIdUser())){
+        if(validateNewEmployer($_SESSION['pk_id_market'], $newEmployer->getPkIdUser())){
             $employerData = array();
 
             if(empty($newEmployer)){
