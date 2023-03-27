@@ -18,7 +18,6 @@ class Generic extends Repository
     //Insert
     public static function persist($table, $values, $columns=null, $haveSingleQuotes=null){
         $insert = parent::getTemplateDynamicInsert($table, $values, $haveSingleQuotes, $columns);
-
         parent::executeQuery($insert);
     }
 

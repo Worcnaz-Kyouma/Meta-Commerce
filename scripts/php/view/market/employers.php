@@ -31,7 +31,7 @@ if(isset($_SESSION['pk_id_user']) && isset($_SESSION['pk_id_market'])){
 function getAllEmployers($fk_id_market){
     $columns = array("e.*", "u.nm_user");
     $tables = array("employer e", "user u");
-    $whereClause = "u.pk_id_user = e.fk_id_user" . " and " . "e.fk_id_market = " . $fk_id_market . " and " . "e.ie_deleted = 'NO'";
+    $whereClause = "u.pk_id_user = e.fk_id_user" . " and " . "e.fk_id_market = " . $fk_id_market . " and " . "e.ie_deleted = 'NO'" . " and " . "e.ie_deleted = 'NO'";
 
     return GenericController::select($columns, $tables, $whereClause);
 }

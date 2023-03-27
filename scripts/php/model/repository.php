@@ -61,6 +61,9 @@ class Repository{
 
         if(is_object($values)){
             $values = self::convertObjectToArrayOfValues($values);
+        }
+
+        if($haveSingleQuotes!=null && array_keys($haveSingleQuotes)!=null){
             $values = self::addSingleQuotesWithBooleans($values, $haveSingleQuotes);
         }
 

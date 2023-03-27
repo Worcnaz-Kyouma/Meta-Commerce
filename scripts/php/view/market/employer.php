@@ -133,22 +133,22 @@ function validateNewEmployer($fk_id_market, $fk_id_user){
         return true;
 }
 function getEmployerByPK($pk_id_user){
-    $whereClause = "pk_id_user = " . $pk_id_user;
+    $whereClause = "pk_id_user = " . $pk_id_user . " and " . "ie_deleted = 'NO'";
     return UserController::select($whereClause)[0];
 }
 function getEmployerAdditionalData($pk_id_employer, $fk_id_market){
     $columns = "*";
     $table = "employer";
-    $whereClause = "pk_id_employer = " . $pk_id_employer . " and " . "fk_id_market = " . $fk_id_market; 
+    $whereClause = "pk_id_employer = " . $pk_id_employer . " and " . "fk_id_market = " . $fk_id_market . " and " . "ie_deleted = 'NO'"; 
 
     return GenericController::select($columns, $table, $whereClause)[0];
 }
 function getEmployerByEmail($ds_email){
-    $whereClause = "ds_email = " . "'" . $ds_email . "'";
+    $whereClause = "ds_email = " . "'" . $ds_email . "'" . " and " . "ie_deleted = 'NO'";
     return UserController::select($whereClause)[0];
 }
 function updateEmployer($employerData){
-    $whereClause = "pk_id_employer = " . $_GET['id'];
+    $whereClause = "pk_id_employer = " . $_GET['id'] . " and " . "ie_deleted = 'NO'";
     GenericController::update("employer", array_keys($employerData), array_values($employerData), $whereClause);
 }
 ?>

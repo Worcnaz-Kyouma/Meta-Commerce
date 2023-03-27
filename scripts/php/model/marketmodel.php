@@ -10,6 +10,7 @@ class Market extends Repository implements \JsonSerializable
         TRUE,   //nm_img
         TRUE,   //dt_market_creation
         TRUE,   //ds_market
+        TRUE,   //ie_status;
         TRUE,   //dt_creation
         TRUE,   //dt_update
         TRUE    //ie_deleted
@@ -75,7 +76,6 @@ class Market extends Repository implements \JsonSerializable
     }
     public static function persist($values){
         $insert = self::getDynamicInsert($values);
-
         parent::executeQuery($insert);
     }
 

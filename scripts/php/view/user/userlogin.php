@@ -7,7 +7,7 @@
         $email      = $_POST['email'];
         $password   = $_POST['password'];
 
-        $whereClause = "ds_email = " . "'" . $email . "'" . " and " . "cd_password = " . $password;
+        $whereClause = "ds_email = " . "'" . $email . "'" . " and " . "cd_password = " . "'" .$password . "'" . " and " . "ie_deleted = 'NO'";
 
         $user = UserController::select($whereClause)[0];
 
@@ -17,7 +17,7 @@
         else{
             session_start();
             $_SESSION['password'] = $user->getNmUser();
-            header('Location: clientlobby.php');
+            header('Location: userlobby.php');
             die();
         }
     } 

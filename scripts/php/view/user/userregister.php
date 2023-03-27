@@ -16,6 +16,7 @@ if (isset($_POST['submit'])) {
 
         $_POST['dt_creation'] = date('Y-m-d');
         $_POST['dt_update'] = date('Y-m-d');
+        $_POST['ie_deleted'] = 'NO';
 
         unset($_POST['cd_password_repeat']);
         unset($_POST['submit']);
@@ -34,7 +35,7 @@ if (isset($_POST['submit'])) {
 }
 
 function findUserByEmail($email){
-    $whereClause = "ds_email = " . "'" . $email . "'";
+    $whereClause = "ds_email = " . "'" . $email . "'" . " and " . "ie_deleted = 'NO'";
 
     return UserController::select($whereClause);
 }

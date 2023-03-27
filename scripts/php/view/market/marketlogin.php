@@ -30,19 +30,19 @@
     } 
 
     function getUser($ds_email, $cd_password){
-        $whereClause = "ds_email = " . "'" . $ds_email . "'" . " and " . "cd_password = " . "'" . $cd_password . "'";
+        $whereClause = "ds_email = " . "'" . $ds_email . "'" . " and " . "cd_password = " . "'" . $cd_password . "'" . " and " . "ie_deleted = 'NO'";
         $user = UserController::select($whereClause)[0];
         return $user;
     }
     function getMarket($nm_market){
-        $whereClause = "nm_market = " . "'" . $nm_market . "'";
+        $whereClause = "nm_market = " . "'" . $nm_market . "'" . " and " . "ie_deleted = 'NO'";
         $market = MarketController::select($whereClause)[0];
         return $market;
     }
     function getEmployerId($fk_id_user, $fk_id_market){
         $column = "pk_id_employer";
         $table = "employer";
-        $whereClause = "fk_id_user = " . $fk_id_user . " and " . "fk_id_market = " . $fk_id_market;
+        $whereClause = "fk_id_user = " . $fk_id_user . " and " . "fk_id_market = " . $fk_id_market . " and " . "ie_deleted = 'NO'";
         $idEmployer = GenericController::select($column, $table, $whereClause)[0]->pk_id_employer;
         return $idEmployer;
     }

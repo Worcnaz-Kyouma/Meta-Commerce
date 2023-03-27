@@ -28,7 +28,7 @@ if (isset($_POST['submit'])) {
 }
 
 function findMarketByEmail($email){
-    $whereClause = "ds_email = " . "'" . $email . "'";
+    $whereClause = "ds_email = " . "'" . $email . "'" . " and " . "ie_deleted = 'NO'";
     return MarketController::select($whereClause);
 }
 function isValidEmail($email){
@@ -75,7 +75,7 @@ function insertIntoMarket(){
 
     $_POST['dt_creation'] = date('Y-m-d');
     $_POST['dt_update'] = date('Y-m-d');
-    $_POST['ie_deleted'] = "FALSE";
+    $_POST['ie_deleted'] = "NO";
 
     $market = new Market($_POST);
 
@@ -87,7 +87,7 @@ function getUser(){
     $ds_email = $_POST['ds_email_user'];
     $cd_password = $_POST['cd_password'];
 
-    $whereClause = "ds_email = " . "'" . $ds_email . "'" . " and " . "'" . $cd_password . "'";
+    $whereClause = "ds_email = " . "'" . $ds_email . "'" . " and " . "cd_password = " . "'" . $cd_password . "'" . " and " . "ie_deleted = 'NO'";
 
     $users = UserController::select($whereClause);
 
@@ -96,11 +96,10 @@ function getUser(){
 
     return $users[0];
 }
-
 function getMarket(){
     $nm_market = $_POST['nm_market'];
 
-    $whereClause = "nm_market = " . "'" . $nm_market . "'";
+    $whereClause = "nm_market = " . "'" . $nm_market . "'" . " and " . "ie_deleted = 'NO'";
 
     $markets = MarketController::select($whereClause);
 
@@ -118,7 +117,7 @@ function insertIntoMarketEmployerRelation($user, $market){
     $employer->vl_salary = 0;
     $employer->dt_creation = "'" . date('Y-m-d') . "'";
     $employer->dt_update = "'" . date('Y-m-d') . "'";
-    $employer->ie_deleted = "'FALSE'";
+    $employer->ie_deleted = "'NO'";
 
     GenericController::persist("employer", $employer);
 }
