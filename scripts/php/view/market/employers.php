@@ -26,7 +26,7 @@ if(isset($_SESSION['pk_id_user']) && isset($_SESSION['pk_id_market'])){
     else{
         $marketEmployers = getAllEmployers($_SESSION['pk_id_market']);
     }
-}
+}//Session/Boss validation and getAllEmployers
 
 function getAllEmployers($fk_id_market){
     $columns = array("e.*", "u.nm_user");
@@ -69,7 +69,7 @@ function getAllEmployers($fk_id_market){
         }
         ?>
     </table>
-    <div onclick="location.href = 'employer.php'" class="end-of-table" style="text-align: center; border: 1px solid #000000; border-top: 0px;">+</div>
+    <div onclick="location.href = 'employer.php';" id="end-of-table">+</div>
 
     <script src="../../../javascript/employers.js"></script>
 </body>

@@ -62,7 +62,7 @@ class Product extends Repository
     private static function getDynamicInsert($values){
         return parent::getTemplateDynamicInsert(self::TABLE_NAME, $values, self::PROPERTIES_NECESSITY_OF_SINGLE_QUOTES);
     }
-    private static function persist($values){
+    public static function persist($values){
         $insert = self::getDynamicInsert($values);
 
         parent::executeQuery($insert);
