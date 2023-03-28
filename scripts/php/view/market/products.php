@@ -46,7 +46,7 @@ function getAllProducts($fk_id_market){
         <tr>
             <th>ID</th>
             <th>Product</th>
-            <th>Mark</th>
+            <th>Category</th>
             <th>Fabric. date</th>
             <th>Selled</th>
             <th>Value</th>
@@ -57,7 +57,7 @@ function getAllProducts($fk_id_market){
             <tr onclick='location.href = \"product.php?id=$product->pk_id_product\";'>
                 <td>$product->pk_id_product</td>
                 <td>$product->nm_product</td>
-                <td>$product->ds_mark</td>
+                <td>$product->fk_id_category</td>
                 <td>$product->dt_fab</td>
                 <td>$product->ie_selled</td>
                 <td>$product->vl_price</td>

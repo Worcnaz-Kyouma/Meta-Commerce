@@ -71,6 +71,7 @@ CREATE TABLE product(
     fk_id_category          INT,
 
     nm_product              VARCHAR(255),
+    nm_img                  VARCHAR(255),
     ds_product              VARCHAR(255),
     vl_price                VARCHAR(255),
     ds_mark                 VARCHAR(255),

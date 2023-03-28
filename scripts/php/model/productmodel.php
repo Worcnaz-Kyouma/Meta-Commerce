@@ -8,6 +8,7 @@ class Product extends Repository
         FALSE,  //fk_id_market
         FALSE,  //fk_id_category
         TRUE,   //nm_product
+        TRUE,   //nm_img
         TRUE,   //ds_product
         FALSE,  //vl_price
         TRUE,   //ds_mark
@@ -22,6 +23,7 @@ class Product extends Repository
     private $fk_id_market;
     private $fk_id_category;
     private $nm_product;
+    private $nm_img;
     private $ds_product;
     private $vl_price;
     private $ds_mark;
