@@ -28,6 +28,7 @@ function getAllProducts($fk_id_market){
 
     return ProductController::select($whereClause);
 }
+//Teremos que trazer um select generico, pois precisamos trazer o nm_category junto ja do objeto produto
 ?>
 
 <!DOCTYPE html>

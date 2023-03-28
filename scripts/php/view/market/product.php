@@ -28,6 +28,7 @@ function manageImgFromForm($nm_product){
 
     return $image_name;
 }
+//Teremos que trazer um select generico, pois precisamos trazer o nm_category junto ja do objeto produto
 ?>
 
 <!DOCTYPE html>
