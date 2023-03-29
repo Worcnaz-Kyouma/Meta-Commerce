@@ -6,6 +6,7 @@ require_once '../../model/util.php';
 require_once '../../controller/marketcontroller.php';
 require_once '../../controller/usercontroller.php';
 require_once '../../controller/productcontroller.php';
+require_once '../../controller/categorycontroller.php';
 require_once '../../controller/genericcontroller.php';
 
 session_start();
@@ -31,6 +32,82 @@ if(isset($_GET['id'])){
     }
 }//Get selected product
 
+if (isset($_POST['submit'])) {
+    if($_POST['submit'] == 'Submit'){
+        $newProductArray = array();
+
+        $newProductArray['pk_id_product'] = getNumOfProductsOfMarket($_SESSION['pk_id_market'])+1;
+        $newProductArray['fk_id_market'] = $_SESSION['pk_id_market'];
+        $newProductArray['fk_id_category'] = 1;
+        //getCategoryPkByName($_POST['nm_category']) ainda nao temos nenhuma categoria criada! Ai dara erro aqui nos testes;
+
+        $newPrnewProductArrayoduct['nm_product'] = $_POST['nm_product'];
+        $newProductArray['nm_img'] = manageImgFromForm($newProductArray['pk_id_product']);
+        $newProductArray['ds_product'] = $_POST['ds_product'];
+        $newProductArray['vl_price'] = $_POST['vl_price'];
+        $newProductArray['ds_mark'] = $_POST['ds_mark'];
+        $newProductArray['dt_fabrication'] = $_POST['dt_fabrication'];
+        $newProductArray['ie_selled'] = $_POST['ie_selled'];
+        
+        $newProductArray['dt_creation'] = date('Y-m-d');
+        $newProductArray['dt_update'] = date('Y-m-d');
+        $newProductArray['ie_deleted'] = "NO";
+
+        $newProduct = new Product($newProductArray);
+
+        ProductController::persist($newProduct);
+
+        header('Location: products.php');
+        die();
+    }//New product
+    else{
+        if($_POST['submit'] == 'Update'){
+            if(validateChangeProduct($_SESSION['pk_id_market'], $_GET['id'])){
+                $updatedProductArray = array();
+
+                $updatedProduct['fk_id_category'] = getCategoryPkByName($_POST['nm_category']);
+
+                $updatedProduct['nm_product'] = "'" . $_POST['nm_product'] . "'";
+                $updatedProduct['ds_product'] = "'" . $_POST['ds_product'] . "'";
+                $updatedProduct['vl_price'] = "'" . $_POST['vl_price'] . "'";
+                $updatedProduct['ds_mark'] = "'" . $_POST['ds_mark'] . "'";
+                $updatedProduct['dt_fabrication'] = "'" . $_POST['dt_fabrication'] . "'";
+                $updatedProduct['ie_selled'] = "'" . $_POST['ie_selled'] . "'";
+        
+                $updatedProduct['dt_update'] = "'" . date('Y-m-d') . "'";
+
+                updateProduct($updatedProduct);
+                header('Location: products.php');
+                die();
+            }
+            else{
+                echo "<p id=\"error\">Invalid change to product " . $_GET["id"] . "</p>";
+            }
+        }//Update employer
+        else{
+            if(validateChangeProduct($_SESSION['pk_id_market'], $_GET['id'])){
+                $delete = array("ie_deleted" => "'YES'", "dt_update" => "'" . date('Y-m-d') . "'");
+                updateProduct($delete);
+                header('Location: products.php');
+                die();
+            }
+            else{
+                echo "<p id=\"error\">Invalid change to product " . $_GET["id"] . "</p>";
+            }
+        }//Delete employer
+    }
+}//Saving form
+
+function getNumOfProductsOfMarket($fk_id_market){
+    $column = 'count(*) numOfProducts';
+    $table = 'product';
+    $whereClause = 'fk_id_market = ' . $fk_id_market . ' and ' . 'ie_deleted = "NO"';
+    return GenericController::select($column, $table, $whereClause)[0]->numOfProducts;
+}
+function getCategoryPkByName($nm_category){
+    $whereClause = 'nm_category = ' . "'" . $nm_category . "'";
+    return CategoryController::select($whereClause)[0]->pk_id_category;
+}
 function manageImgFromForm($pk_id_product){
     // Here we have an weakness for DoS attack, because i dont limit the size of archive sended from form
 
@@ -60,11 +137,33 @@ function manageImgFromForm($pk_id_product){
     return $image_name;
 }
 function getSelectedProduct($pk_id_product, $fk_id_market){
-    
+    $columns = array('p.*', 'c.nm_category');
 
-    return
+    $tables = array('product p', 'category c');
+    
+    $whereClause = 'p.fk_id_category = c.pk_id_category' . ' and ' . 'p.pk_id_product = ' . $pk_id_product . ' and ' . 'p.fk_id_market = ' . $fk_id_market . ' and ' . "p.ie_deleted = 'NO'";
+
+    return GenericController::select($columns, $tables, $whereClause)[0];
 }
-//Teremos que trazer um select generico, pois precisamos trazer o nm_category junto ja do objeto produto
+function validateChangeProduct($fk_id_market, $pk_id_product){
+    $valid = true;
+
+    $column = "*";
+    $table = "product";
+    $whereClause = "fk_id_market = " . $fk_id_market . " and " . "pk_id_product = ". $pk_id_product . " and " . "ie_deleted = 'NO'"; 
+
+    $oldProduct = GenericController::select($column, $table, $whereClause)[0];
+    if(empty($oldProduct)){
+        $valid = false;
+    }
+
+    return $valid;
+}
+function updateProduct($updatedProduct){
+    $whereClause = "pk_id_product = " . $_GET['id'] . " and " . "ie_deleted = 'NO'";
+    //change the generic update to product update
+    GenericController::update("product", array_keys($updatedProduct), array_values($updatedProduct), $whereClause);
+}
 ?>
 
 <!DOCTYPE html>
@@ -144,7 +243,7 @@ function getSelectedProduct($pk_id_product, $fk_id_market){
         }
         else{
             echo "<input type=\"submit\" name=\"submit\" value=\"Update\"><br>";
-            echo "<input type=\"submit\" name=\"submit\" value=\"Dismiss\"><br>";
+            echo "<input type=\"submit\" name=\"submit\" value=\"Delete\"><br>";
         }
         ?>
     </form>
