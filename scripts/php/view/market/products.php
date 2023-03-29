@@ -24,11 +24,14 @@ if(isset($_SESSION['pk_id_user']) && isset($_SESSION['pk_id_market'])){
 }//Session validation and getAllProducts
 
 function getAllProducts($fk_id_market){
-    $whereClause = 'fk_id_market = ' . $fk_id_market . ' and ' . "ie_deleted = 'NO'";
+    $columns = array('p.*', 'c.nm_category');
 
-    return ProductController::select($whereClause);
+    $tables = array('product p', 'category c');
+    
+    $whereClause = 'p.fk_id_category = c.pk_id_category' . ' and '. 'p.fk_id_market = ' . $fk_id_market . ' and ' . "p.ie_deleted = 'NO'";
+
+    return GenericController::select($columns, $tables, $whereClause);
 }
-//Teremos que trazer um select generico, pois precisamos trazer o nm_category junto ja do objeto produto
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +61,7 @@ function getAllProducts($fk_id_market){
             <tr onclick='location.href = \"product.php?id=$product->pk_id_product\";'>
                 <td>$product->pk_id_product</td>
                 <td>$product->nm_product</td>
-                <td>$product->fk_id_category</td>
+                <td>$product->nm_category</td>
                 <td>$product->dt_fab</td>
                 <td>$product->ie_selled</td>
                 <td>$product->vl_price</td>

@@ -1,6 +1,37 @@
 <?php
+//error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
-function manageImgFromForm($nm_product){
+require_once '../../model/util.php';
+
+require_once '../../controller/marketcontroller.php';
+require_once '../../controller/usercontroller.php';
+require_once '../../controller/productcontroller.php';
+require_once '../../controller/genericcontroller.php';
+
+session_start();
+
+if(isset($_SESSION['pk_id_user']) && isset($_SESSION['pk_id_market'])){
+    $user = getSessionedUser($_SESSION['pk_id_user']);
+    standardValidateForMarket($user);
+
+    $market = getSessionedMarket($_SESSION['pk_id_market']);
+    standardValidateForMarket($market);
+
+    $additionalEmployerData = getEmployerData($_SESSION['pk_id_user'], $_SESSION['pk_id_market']);
+    standardValidateForMarket($additionalEmployerData);
+
+}//Validating session
+
+if(isset($_GET['id'])){
+    $selectedProduct = getSelectedProduct($_GET['id'], $_SESSION['pk_id_market']);
+    
+    if(empty($selectedProduct)){
+        header('Location: marketlobby.php');
+        die();
+    }
+}//Get selected product
+
+function manageImgFromForm($pk_id_product){
     // Here we have an weakness for DoS attack, because i dont limit the size of archive sended from form
 
     // Get reference to uploaded image
@@ -18,7 +49,7 @@ function manageImgFromForm($nm_product){
     }
 
     // Generate img name
-    $image_name="img" .$nm_product . substr($image_file["name"], strrpos($image_file["name"], '.'), strlen($image_file["name"]) - 1);
+    $image_name="img" .$pk_id_product . substr($image_file["name"], strrpos($image_file["name"], '.'), strlen($image_file["name"]) - 1);
 
     // Move the file his correct place
     move_uploaded_file(
@@ -27,6 +58,11 @@ function manageImgFromForm($nm_product){
     );
 
     return $image_name;
+}
+function getSelectedProduct($pk_id_product, $fk_id_market){
+    
+
+    return
 }
 //Teremos que trazer um select generico, pois precisamos trazer o nm_category junto ja do objeto produto
 ?>
