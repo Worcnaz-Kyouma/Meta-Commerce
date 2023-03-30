@@ -84,7 +84,11 @@ CREATE TABLE product(
 
     PRIMARY KEY(pk_id_product)
 )
-
+                <td>" . $category->getPkIdCategory() . "</td>
+                <td>" . $category->getNmCategory() . "</td>
+                <td>" . $category->getDsCategory() . "</td>
+                <td>" . $category->getCdColor() . "</td>
+                <td>" . $category->getDtCreation() . "</td>
 CREATE TABLE category(
     pk_id_category          INT             NOT NULL AUTO_INCREMENT,
     fk_id_market            INT,

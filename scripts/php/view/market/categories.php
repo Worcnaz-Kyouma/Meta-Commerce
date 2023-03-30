@@ -53,12 +53,12 @@ function getAllCategories($fk_id_market){
         <?php
         foreach($marketCategories as $category){
             echo "
-            <tr onclick='location.href = \"category.php?id=$category->pk_id_category\";'>
-                <td>$category->pk_id_category</td>
-                <td>$category->nm_category</td>
-                <td>$category->ds_category</td>
-                <td>$category->cd_color</td>
-                <td>$category->dt_creation</td>
+            <tr onclick='location.href = \"category.php?id=" . $category->getPkIdCategory() . "\";'>
+                <td>" . $category->getPkIdCategory() . "</td>
+                <td>" . $category->getNmCategory() . "</td>
+                <td>" . $category->getDsCategory() . "</td>
+                <td>" . $category->getCdColor() . "</td>
+                <td>" . $category->getDtCreation() . "</td>
             </tr>
             ";
         }

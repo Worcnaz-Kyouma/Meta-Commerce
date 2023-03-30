@@ -4,19 +4,18 @@ class Category extends Repository
 {
     const TABLE_NAME = "category";
     const PROPERTIES_NECESSITY_OF_SINGLE_QUOTES = array(
-        FALSE,  //pk_id_market
-        TRUE,   //nm_market
-        TRUE,   //ds_email
-        TRUE,   //nm_img
-        TRUE,   //dt_market_creation
-        TRUE,   //ds_market
+        FALSE,  //pk_id_category
+        FALSE,  //fk_id_market
+        TRUE,   //nm_category
+        TRUE,   //ds_category
+        TRUE,   //cd_color
         TRUE,   //dt_creation
         TRUE,   //dt_update
         TRUE    //ie_deleted
     );
     
     private $pk_id_category;
-    private $fk_market;
+    private $fk_id_market;
     private $nm_category;
     private $ds_category;
     private $cd_color;
@@ -36,6 +35,18 @@ class Category extends Repository
     //Getters and Setters
     function getPkIdCategory(){
         return $this->pk_id_category;
+    }
+    function getNmCategory(){
+        return $this->nm_category;
+    }
+    function getDsCategory(){
+        return $this->ds_category;
+    }
+    function getCdColor(){
+        return $this->cd_color;
+    }
+    function getDtCreation(){
+        return $this->dt_creation;
     }
 
     /*DAO Methods*/

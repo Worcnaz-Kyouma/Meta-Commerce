@@ -65,22 +65,22 @@ if (isset($_POST['submit'])) {
             if(validateChangeProduct($_SESSION['pk_id_market'], $_GET['id'])){
                 $updatedProductArray = array();
 
-                $updatedProduct['fk_id_category'] = 1;
+                $updatedProductArray['fk_id_category'] = 1;
                 //getCategoryPkByName($_POST['nm_category']) ainda nao temos nenhuma categoria criada! Ai dara erro aqui nos testes;
                 
                 if($_FILES['image']['name'][0]!="")
                     manageImgFromForm($_GET['id']);
 
-                $updatedProduct['nm_product'] = "'" . $_POST['nm_product'] . "'";
-                $updatedProduct['ds_product'] = "'" . $_POST['ds_product'] . "'";
-                $updatedProduct['vl_price'] = "'" . $_POST['vl_price'] . "'";
-                $updatedProduct['ds_mark'] = "'" . $_POST['ds_mark'] . "'";
-                $updatedProduct['dt_fabrication'] = "'" . $_POST['dt_fabrication'] . "'";
-                $updatedProduct['ie_selled'] = "'" . $_POST['ie_selled'] . "'";
+                $updatedProductArray['nm_product'] = "'" . $_POST['nm_product'] . "'";
+                $updatedProductArray['ds_product'] = "'" . $_POST['ds_product'] . "'";
+                $updatedProductArray['vl_price'] = "'" . $_POST['vl_price'] . "'";
+                $updatedProductArray['ds_mark'] = "'" . $_POST['ds_mark'] . "'";
+                $updatedProductArray['dt_fabrication'] = "'" . $_POST['dt_fabrication'] . "'";
+                $updatedProductArray['ie_selled'] = "'" . $_POST['ie_selled'] . "'";
         
-                $updatedProduct['dt_update'] = "'" . date('Y-m-d') . "'";
+                $updatedProductArray['dt_update'] = "'" . date('Y-m-d') . "'";
 
-                updateProduct($updatedProduct);
+                updateProduct($updatedProductArray);
                 header('Location: products.php');
                 die();
             }

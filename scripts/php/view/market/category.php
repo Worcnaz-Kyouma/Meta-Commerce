@@ -5,7 +5,7 @@ require_once '../../model/util.php';
 
 require_once '../../controller/marketcontroller.php';
 require_once '../../controller/usercontroller.php';
-require_once '../../controller/productcontroller.php';
+require_once '../../controller/categorycontroller.php';
 require_once '../../controller/genericcontroller.php';
 
 session_start();
@@ -23,82 +23,92 @@ if(isset($_SESSION['pk_id_user']) && isset($_SESSION['pk_id_market'])){
 }//Validating session
 
 if(isset($_GET['id'])){
-    $selectedProduct = getSelectedProduct($_GET['id'], $_SESSION['pk_id_market']);
+    $selectedCategory = getSelectedCategory($_GET['id'], $_SESSION['pk_id_market']);
     
-    if(empty($selectedProduct)){
+    if(empty($selectedCategory)){
         header('Location: marketlobby.php');
         die();
     }
-}//Get selected product
+}//Get selected category
 
 if (isset($_POST['submit'])) {
     if($_POST['submit'] == 'Submit'){
+        $newCategoryArray = array();
 
-        header('Location: products.php');
+        $newCategoryArray['pk_id_category'] = 0;
+        $newCategoryArray['fk_id_market'] = $_SESSION['pk_id_market'];
+
+        $newCategoryArray['nm_category'] = $_POST['nm_category'];
+        $newCategoryArray['ds_category'] = $_POST['ds_category'];
+        $newCategoryArray['cd_color'] = $_POST['cd_color'];
+        
+        $newCategoryArray['dt_creation'] = date('Y-m-d');
+        $newCategoryArray['dt_update'] = date('Y-m-d');
+        $newCategoryArray['ie_deleted'] = "NO";
+
+        $newCategory = new Category($newCategoryArray);
+
+        CategoryController::persist($newCategory);
+
+        header('Location: categories.php');
         die();
-    }//New product
+    }//New category
     else{
         if($_POST['submit'] == 'Update'){
-            if(validateChangeEmployer($_SESSION['pk_id_market'], $_GET['id'])){
-                
-                header('Location: products.php');
+            if(validateChangeCategory($_SESSION['pk_id_market'], $_GET['id'])){
+                $updatedCategoryArray = array();
+
+                $updatedCategoryArray['nm_category'] = "'" . $_POST['nm_category'] . "'";
+                $updatedCategoryArray['ds_category'] = "'" . $_POST['ds_category'] . "'";
+                $updatedCategoryArray['cd_color'] = "'" . $_POST['cd_color'] . "'";
+        
+                $updatedProduct['dt_update'] = "'" . date('Y-m-d') . "'";
+
+                updateCategory($updatedCategoryArray);
+                header('Location: categories.php');
                 die();
             }
             else{
-                echo "<p id=\"error\">Invalid change to product " . $_GET["id"] . "</p>";
+                echo "<p id=\"error\">Invalid change to category " . $_GET["id"] . "</p>";
             }
-    }//Update employer
-    else{
-        if(validateChangeEmployer($_SESSION['pk_id_market'], $_GET['id'])){
-                
-            header('Location: products.php');
-            die();
-        }
+        }//Update employer
         else{
-            echo "<p id=\"error\">Invalid change to product " . $_GET["id"] . "</p>";
-        }
-    }//Dismiss employer
+            if(validateChangeCategory($_SESSION['pk_id_market'], $_GET['id'])){
+                $delete = array("ie_deleted" => "'YES'", "dt_update" => "'" . date('Y-m-d') . "'");
+                updateCategory($delete);
+                
+                header('Location: categories.php');
+                die();
+            }
+            else{
+                echo "<p id=\"error\">Invalid change to category " . $_GET["id"] . "</p>";
+            }
+        }//Dismiss employer
     }
 }//Saving form
 
-function manageImgFromForm($pk_id_product){
-    // Here we have an weakness for DoS attack, because i dont limit the size of archive sended from form
+function getSelectedCategory($pk_id_category, $fk_id_market){
+    $whereClause = 'pk_id_category = ' . $pk_id_category . ' and ' . 'fk_id_market = ' . $fk_id_market . ' and ' . "ie_deleted = 'NO'";
 
-    // Get reference to uploaded image
-    $image_file = $_FILES['image'];
+    return CategoryController::select($whereClause)[0];
+}
+function validateChangeCategory($fk_id_market, $pk_id_category){
+    $valid = true;
 
-    // Exit if no file uploaded
-    if (!isset($image_file)) {
-        die('No file uploaded.');
+    $whereClause = "fk_id_market = " . $fk_id_market . " and " . "pk_id_category = ". $pk_id_category . " and " . "ie_deleted = 'NO'"; 
+
+    $oldProduct = CategoryController::select($whereClause)[0];
+    if(empty($oldProduct)){
+        $valid = false;
     }
 
-    // Exit if is not a valid image file
-    $image_type = exif_imagetype($image_file["tmp_name"]);
-    if (!$image_type) {
-        die('Uploaded file is not an image.');
-    }
-
-    // Generate img name
-    $image_name="img" .$pk_id_product . substr($image_file["name"], strrpos($image_file["name"], '.'), strlen($image_file["name"]) - 1);
-
-    // Move the file his correct place
-    move_uploaded_file(
-        $image_file["tmp_name"],
-        __DIR__ . "/../../../../resources/productsimg/" . $image_name
-    );
-
-    return $image_name;
+    return $valid;
 }
-function getSelectedProduct($pk_id_product, $fk_id_market){
-    $columns = array('p.*', 'c.nm_category');
-
-    $tables = array('product p', 'category c');
-    
-    $whereClause = 'p.fk_id_category = c.pk_id_category' . ' and ' . 'p.pk_id_product = ' . $pk_id_product . ' and ' . 'p.fk_id_market = ' . $fk_id_market . ' and ' . "p.ie_deleted = 'NO'";
-
-    return GenericController::select($columns, $tables, $whereClause)[0];
+function updateCategory($updatedCategory){
+    $whereClause = "pk_id_category = " . $_GET['id'] . " and " . "ie_deleted = 'NO'";
+    //change the generic update to category update
+    GenericController::update("category", array_keys($updatedCategory), array_values($updatedCategory), $whereClause);
 }
-//Teremos que trazer um select generico, pois precisamos trazer o nm_category junto ja do objeto produto
 ?>
 
 <!DOCTYPE html>
@@ -107,78 +117,42 @@ function getSelectedProduct($pk_id_product, $fk_id_market){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product</title>
+    <title>Category</title>
     <link rel="stylesheet" href="../../../../styles/style.css">
 </head>
 <body>
     <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">
-        <div id="image-container"></div>
-        <label for="image">Image: </label>
-        <input type="file" name="image" id="image" accept="image/*" 
-        <?php if(isset($product)) echo "disabled";?>><br>
-
         <label for="nm_category">Category: </label>
         <input type="text" name="nm_category" id="nm_category" 
         <?php
-        if(isset($product)){
-            echo "value = " . $selectedProduct->nm_category;
+        if(isset($selectedCategory)){
+            echo "value = " . $selectedCategory->getNmCategory();
         }
         ?>><br>
 
-        <label for="nm_product">Name: </label>
-        <input type="text" name="nm_product" id="nm_product" 
+        <label for="ds_category">Description: </label>
+        <input type="text" name="ds_category" id="ds_category" 
         <?php
-        if(isset($product)){
-            echo "value = " . $selectedProduct->nm_product;
+        if(isset($selectedCategory)){
+            echo "value = " . $selectedCategory->getDsCategory();
         }
         ?>><br>
 
-        <label for="ds_product">Description: </label>
-        <input type="text" name="ds_product" id="ds_product" 
+        <label for="cd_color">Color: </label>
+        <input type="color" name="cd_color" id="cd_color" 
         <?php
-        if(isset($product)){
-            echo "value = " . $selectedProduct->ds_product;
-        }
-        ?>><br>
-
-        <label for="vl_price">Price: </label>
-        <input type="number" name="vl_price" id="vl_price" 
-        <?php
-        if(isset($product)){
-            echo "value = " . $selectedProduct->vl_price;
-        }
-        ?>><br>
-
-        <label for="ds_mark">Mark: </label>
-        <input type="text" name="ds_mark" id="ds_mark" 
-        <?php
-        if(isset($product)){
-            echo "value = " . $selectedProduct->ds_mark;
-        }
-        ?>><br>
-
-        <label for="dt_fabrication">Fabrication date: </label>
-        <input type="date" name="dt_fabrication" id="dt_fabrication" <?php
-        if(isset($product)){
-            echo "value = " . $selectedProduct->dt_fabrication;
-        }
-        ?>><br>
-
-        <label for="ie_selled">Selled: </label>
-        <input type="text" name="ie_selled" id="ie_selled" 
-        <?php
-        if(isset($product)){
-            echo "value = " . $selectedProduct->ie_selled;
+        if(isset($selectedCategory)){
+            echo "value = " . $selectedCategory->getCdColor();
         }
         ?>><br>
 
         <?php
-        if(!isset($product)){
+        if(!isset($selectedCategory)){
             echo "<input type=\"submit\" name=\"submit\" value=\"Submit\"><br>";
         }
         else{
             echo "<input type=\"submit\" name=\"submit\" value=\"Update\"><br>";
-            echo "<input type=\"submit\" name=\"submit\" value=\"Dismiss\"><br>";
+            echo "<input type=\"submit\" name=\"submit\" value=\"Delete\"><br>";
         }
         ?>
     </form>
