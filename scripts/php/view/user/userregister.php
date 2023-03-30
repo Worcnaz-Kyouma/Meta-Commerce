@@ -45,13 +45,13 @@ function isValidEmail($email){
 function manageImgFromForm($email){
     // Here we have an weakness for DoS attack, because i dont limit the size of archive sended from form
 
-    // Get reference to uploaded image
-    $image_file = $_FILES['image'];
-
     // Exit if no file uploaded
-    if (!isset($image_file)) {
+    if ($_FILES['image']['name'][0] == "") {
         die('No file uploaded.');
     }
+
+    // Get reference to uploaded image
+    $image_file = $_FILES['image'];
 
     // Exit if is not a valid image file
     $image_type = exif_imagetype($image_file["tmp_name"]);

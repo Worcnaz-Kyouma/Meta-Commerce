@@ -34,6 +34,9 @@ class Category extends Repository
     }
 
     //Getters and Setters
+    function getPkIdCategory(){
+        return $this->pk_id_category;
+    }
 
     /*DAO Methods*/
 

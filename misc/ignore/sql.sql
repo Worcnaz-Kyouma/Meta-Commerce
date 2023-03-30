@@ -99,3 +99,5 @@ CREATE TABLE category(
 
     PRIMARY KEY(pk_id_category)
 )
+INSERT INTO category 
+VALUES(0, 1, 'Eletronics', 'Eletron is the blood of this things!', '#388697', '2012-01-01', '2012-01-01', 'NO');

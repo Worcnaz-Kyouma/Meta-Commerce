@@ -62,7 +62,7 @@ function getAllProducts($fk_id_market){
                 <td>$product->pk_id_product</td>
                 <td>$product->nm_product</td>
                 <td>$product->nm_category</td>
-                <td>$product->dt_fab</td>
+                <td>$product->dt_fabrication</td>
                 <td>$product->ie_selled</td>
                 <td>$product->vl_price</td>
             </tr>

@@ -41,7 +41,7 @@ if (isset($_POST['submit'])) {
         $newProductArray['fk_id_category'] = 1;
         //getCategoryPkByName($_POST['nm_category']) ainda nao temos nenhuma categoria criada! Ai dara erro aqui nos testes;
 
-        $newPrnewProductArrayoduct['nm_product'] = $_POST['nm_product'];
+        $newProductArray['nm_product'] = $_POST['nm_product'];
         $newProductArray['nm_img'] = manageImgFromForm($newProductArray['pk_id_product']);
         $newProductArray['ds_product'] = $_POST['ds_product'];
         $newProductArray['vl_price'] = $_POST['vl_price'];
@@ -65,7 +65,11 @@ if (isset($_POST['submit'])) {
             if(validateChangeProduct($_SESSION['pk_id_market'], $_GET['id'])){
                 $updatedProductArray = array();
 
-                $updatedProduct['fk_id_category'] = getCategoryPkByName($_POST['nm_category']);
+                $updatedProduct['fk_id_category'] = 1;
+                //getCategoryPkByName($_POST['nm_category']) ainda nao temos nenhuma categoria criada! Ai dara erro aqui nos testes;
+                
+                if($_FILES['image']['name'][0]!="")
+                    manageImgFromForm($_GET['id']);
 
                 $updatedProduct['nm_product'] = "'" . $_POST['nm_product'] . "'";
                 $updatedProduct['ds_product'] = "'" . $_POST['ds_product'] . "'";
@@ -101,23 +105,23 @@ if (isset($_POST['submit'])) {
 function getNumOfProductsOfMarket($fk_id_market){
     $column = 'count(*) numOfProducts';
     $table = 'product';
-    $whereClause = 'fk_id_market = ' . $fk_id_market . ' and ' . 'ie_deleted = "NO"';
+    $whereClause = 'fk_id_market = ' . $fk_id_market;
     return GenericController::select($column, $table, $whereClause)[0]->numOfProducts;
 }
 function getCategoryPkByName($nm_category){
     $whereClause = 'nm_category = ' . "'" . $nm_category . "'";
-    return CategoryController::select($whereClause)[0]->pk_id_category;
+    return CategoryController::select($whereClause)[0]->getPkIdCategory();
 }
 function manageImgFromForm($pk_id_product){
     // Here we have an weakness for DoS attack, because i dont limit the size of archive sended from form
 
-    // Get reference to uploaded image
-    $image_file = $_FILES['image'];
-
     // Exit if no file uploaded
-    if (!isset($image_file)) {
+    if ($_FILES['image']['name'][0] == "") {
         die('No file uploaded.');
     }
+
+    // Get reference to uploaded image
+    $image_file = $_FILES['image'];
 
     // Exit if is not a valid image file
     $image_type = exif_imagetype($image_file["tmp_name"]);
@@ -179,13 +183,13 @@ function updateProduct($updatedProduct){
     <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">
         <div id="image-container"></div>
         <label for="image">Image: </label>
-        <input type="file" name="image" id="image" accept="image/*" 
-        <?php if(isset($product)) echo "disabled";?>><br>
+        <input type="file" name="image" id="image" accept="image/*"><br>
+        <!--Aqui vai ser o seguinte, se o usuario nao colocar nada o servidor nao vai mudar a imagem do produto. Mas caso ele mude, bom, tudo que ira acontecer é que a imagem no servidor mudará, mas o nome em si não!-->
 
         <label for="nm_category">Category: </label>
         <input type="text" name="nm_category" id="nm_category" 
         <?php
-        if(isset($product)){
+        if(isset($selectedProduct)){
             echo "value = " . $selectedProduct->nm_category;
         }
         ?>><br>
@@ -193,7 +197,7 @@ function updateProduct($updatedProduct){
         <label for="nm_product">Name: </label>
         <input type="text" name="nm_product" id="nm_product" 
         <?php
-        if(isset($product)){
+        if(isset($selectedProduct)){
             echo "value = " . $selectedProduct->nm_product;
         }
         ?>><br>
@@ -201,7 +205,7 @@ function updateProduct($updatedProduct){
         <label for="ds_product">Description: </label>
         <input type="text" name="ds_product" id="ds_product" 
         <?php
-        if(isset($product)){
+        if(isset($selectedProduct)){
             echo "value = " . $selectedProduct->ds_product;
         }
         ?>><br>
@@ -209,7 +213,7 @@ function updateProduct($updatedProduct){
         <label for="vl_price">Price: </label>
         <input type="number" name="vl_price" id="vl_price" 
         <?php
-        if(isset($product)){
+        if(isset($selectedProduct)){
             echo "value = " . $selectedProduct->vl_price;
         }
         ?>><br>
@@ -217,14 +221,14 @@ function updateProduct($updatedProduct){
         <label for="ds_mark">Mark: </label>
         <input type="text" name="ds_mark" id="ds_mark" 
         <?php
-        if(isset($product)){
+        if(isset($selectedProduct)){
             echo "value = " . $selectedProduct->ds_mark;
         }
         ?>><br>
 
         <label for="dt_fabrication">Fabrication date: </label>
         <input type="date" name="dt_fabrication" id="dt_fabrication" <?php
-        if(isset($product)){
+        if(isset($selectedProduct)){
             echo "value = " . $selectedProduct->dt_fabrication;
         }
         ?>><br>
@@ -232,13 +236,13 @@ function updateProduct($updatedProduct){
         <label for="ie_selled">Selled: </label>
         <input type="text" name="ie_selled" id="ie_selled" 
         <?php
-        if(isset($product)){
+        if(isset($selectedProduct)){
             echo "value = " . $selectedProduct->ie_selled;
         }
         ?>><br>
 
         <?php
-        if(!isset($product)){
+        if(!isset($selectedProduct)){
             echo "<input type=\"submit\" name=\"submit\" value=\"Submit\"><br>";
         }
         else{
