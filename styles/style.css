@@ -1,29 +1,39 @@
 html, body{
-    margin: 0px;
-    padding: 0px;
+  margin: 0px;
+  padding: 0px;
+}
+
+button{
+  background-color: rgb(111, 26, 34);
+  border: 0px;
 }
 
 table{
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
   }
-  th, td{
-    border: 1px solid;
-  }
-  #end-of-table{
-    text-align: center; 
-    border: 1px solid #000000; 
-    border-top: 0px;
-  }
-  tr:not(:first-child), #end-of-table{
-    cursor: pointer;
-  }
-  tr:hover:not(:first-child), #end-of-table:hover{
-    background-color: rgb(255, 244, 230);
-  }
-  tr:active:not(:first-child), #end-of-table:active{
-    background-color: rgb(139, 255, 201);
-  }
+
+th, td{
+  border: 1px solid;
+}
+
+#end-of-table{
+  text-align: center; 
+  border: 1px solid #000000; 
+  border-top: 0px;
+}
+
+tr:not(:first-child), #end-of-table{
+  cursor: pointer;
+}
+
+tr:hover:not(:first-child), #end-of-table:hover{
+  background-color: rgb(255, 244, 230);
+}
+
+tr:active:not(:first-child), #end-of-table:active{
+  background-color: rgb(139, 255, 201);
+}
   
   /*.end-of-table{
     background-color: rgb(139, 255, 201);
