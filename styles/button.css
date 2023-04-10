@@ -1,0 +1,43 @@
+:root{
+    --button-color: #B3001B ;
+}
+
+.btn{
+    background-color: var(--button-color);
+    border: 1px outset black;
+    border-radius: 10px;
+
+    color: white;
+
+    filter: brightness(100%);
+    transform: scale(1);
+
+    padding: 11px;
+    font-size: 17px;
+
+    transition: filter 0.8s, transform 0.8s;
+}
+
+.btn:disabled{
+    filter: brightness(60%);
+    transform: scale(0.95);
+
+    transition: filter 0.8s, transform 0.8s;
+}
+
+.btn:hover:not(:disabled){
+    filter: brightness(85%);
+    transform: scale(1.08);
+    cursor: pointer;
+    z-index: 99;
+
+    transition: all 0.8s;
+}
+
+.btn:active:not(:disabled){
+    filter: brightness(70%);
+    transform: scale(1.05);
+
+    transition: all 0.001s;
+    transition: transform 0.2s;
+}

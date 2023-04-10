@@ -1,17 +1,21 @@
+var initialPhpViewFilesUrl='scripts/php/view/';
 var actualMode = "user";
 
 //Hidden class in client/market div logic and change mode between then 
-function changeMode(mode) {
-    if (actualMode != mode) {
-        removeHiddenOfClass(mode);
+function changeMode(button) {
+    if (actualMode != button.id) {
+        actualModeBtn = document.getElementById(actualMode);
+        actualModeBtn.disabled = false;
+        button.disabled = true;
+        /*removeHiddenOfClass(mode);
         if (mode == "market") {
             concatenateHiddenInClass("user");
         }
         else {
             concatenateHiddenInClass("market");
-        }
-        actualMode = mode;
+        }*/
     }
+    actualMode = button.id;
 }
 function removeHiddenOfClass(mode) {
     var removingHiddenStringOfClass = document.getElementById(mode).getAttribute("class").replace("hidden ", "");
@@ -24,7 +28,7 @@ function concatenateHiddenInClass(mode) {
 }
 
 //PHP pages redirect logic
-function sendToDynamicLoginPage(url) {
-    loginUrlWithMode = initialPhpUrl + actualMode + '/' + actualMode + url;
+function sendToDynamicLoginPage() {
+    loginUrlWithMode = initialPhpViewFilesUrl + actualMode + '/' + actualMode + 'login.php';
     location.href = loginUrlWithMode;
 }

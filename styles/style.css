@@ -1,40 +1,63 @@
+:root{
+  --body-background-color: #A3BDDA;--header-backgroud-color: #262626;
+}
+
 html, body{
   margin: 0px;
   padding: 0px;
+  font-family: 'Segoe UI';
 }
 
-button{
-  background-color: rgb(111, 26, 34);
-  border: 0px;
-}
-
-table{
+body{
+  position: absolute;
   width: 100%;
-  border-collapse: collapse;
+  height: 100%;
+
+  background-color: var(--body-background-color);
+}
+
+header{
+  position: relative;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end; 
+
+  background-color: var(--header-backgroud-color);
+  color: white;
+
+  height:100px;
+  width: 100%;
+
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.header-title-div{
+  position: absolute;
+  top: 50%;
+  left: 0px;
+
+  transform: translateY(-50%);
+
+  width: 100%;
+  text-align: center;
+}
+
+@media (max-width: 650px) {
+  .header-title-div{
+    width: 80%;
   }
-
-th, td{
-  border: 1px solid;
 }
 
-#end-of-table{
-  text-align: center; 
-  border: 1px solid #000000; 
-  border-top: 0px;
+.header-title-div h1{
+  margin: 0px;
 }
 
-tr:not(:first-child), #end-of-table{
-  cursor: pointer;
+#login-btn{
+  margin-right: 30px;
+  width: 10%;
+  min-width: 68px;
+  max-width: 110px;
 }
-
-tr:hover:not(:first-child), #end-of-table:hover{
-  background-color: rgb(255, 244, 230);
-}
-
-tr:active:not(:first-child), #end-of-table:active{
-  background-color: rgb(139, 255, 201);
-}
-  
-  /*.end-of-table{
-    background-color: rgb(139, 255, 201);
-  }*/

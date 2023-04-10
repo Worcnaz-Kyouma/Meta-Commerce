@@ -1,0 +1,61 @@
+input[type="file"]{
+    display: none;
+}
+
+div.img-wrapper{
+    position: absolute;
+    top:-70px;
+    left: 8%;
+
+    width: 120px;
+    height: 120px;
+
+    border-radius: 100%;
+
+    background-color: var(--login-header-background-color);
+}
+
+div.img-wrapper>label{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    cursor: pointer;
+
+    border-radius: 100%;
+    border: 3px solid var(--login-container-background-color);
+
+    z-index: 2;
+}
+
+div.img-wrapper>label>img{
+    position: absolute;
+    width: 100%;
+}
+
+div.img-wrapper>label>p{
+    color: white;
+    font-size: 32px;
+    z-index: -2;
+}
+
+input:not([type="submit"], [type="file"]){
+    border: transparent;
+
+    border-bottom: 2px solid var(--login-header-background-color);
+    border-right: 2px solid var(--login-header-background-color);
+
+    background-color: var(--login-container-background-color);
+    filter: brightness(109%);
+}
+
+input:focus:not([type="submit"], [type="file"]){
+    border: 1px solid var(--login-header-background-color);
+}

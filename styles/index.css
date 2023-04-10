@@ -1,6 +1,34 @@
-.hidden{
-    position: absolute;
-    visibility: hidden;
-    outline: none;
-    pointer-events: none;
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    flex-grow: 1;
+    
+    width: 100%;
+}
+
+#mode-selector-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border: 2px dotted black;
+    border-radius: 10px;
+
+    padding: 0px 10px 0px 10px;
+
+}
+
+.mode-selector-btn{
+    width: 100%;
+    min-width: 150px;
+    margin: 1px;
 }

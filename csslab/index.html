@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Lab</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <header>
+        <button class="btn" id="login-btn">Login</button>
+    </header>
+    
+    <br>
+    <div>
+        <p style="text-align: center;">
+            Sugoma!
+        </p>
+        <div class="lab-div">
+            <button class="btn">User</button>
+            <button class="btn">Market</button>
+        </div>
+        <br>
+        <table>
+            <tr>
+                <th><span>Type</span></th>
+                <th><span>Name</span></th>
+            </tr>
+            <tr>
+                <td><span>Sus</span></td>
+                <td><span>Sugoma</span></td>
+            </tr>
+            <tr>
+                <td><span>194</span></td>
+                <td><span>Norman</span></td>
+            </tr>
+            <tr>
+                <td><span>Cringe</span></td>
+                <td><span>Pacheco</span></td>
+            </tr>
+            <tr>
+                <td colspan="100%" style="text-align: center;">+</td>
+            </tr>
+        </table>
+    </div>
+
+    <br>
+    
+    <div class="login-box">
+        <div class="login-header">
+            <h1>User Login</h1>
+        </div>
+        <form class="user-login-box" action="" method="post">
+            <div class="input-form">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email">
+            </div>
+            <div class="input-form">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <input class="btn" type="submit" name="submit" value="Login">
+        </form>
+        <div class="login-footer">
+            <span>Don't have an user account? Make right <a href="userregister.php">there!</a></span>
+        </div>
+    </div>
+
+    <br> 
+    
+    <div class="login-box market-login">
+        <div class="login-header">
+            <h1>Market Login</h1>
+        </div>
+        <form action="" method="post">
+            <div class="market-picker">
+                <div class="img-wrapper"><img class="icon" src="imgnicolasaprado028@gmail.com.png" alt="Sus"></div>
+
+                <div class="input-form">
+                    <label for="market">Market: </label>
+                    <input list="markets" name="market" id="market">
+                    <datalist id="markets">
+                    </datalist>
+                </div>
+            </div>
+
+            <div class="input-form">
+                <label for="email">Email: </label>
+                <input type="text" name="email" id="email" onchange="getEmployerMarkets()">
+            </div>
+
+            <div class="input-form">
+                <label for="password">Password: </label>
+                <input type="password" name="password" id="password" onchange="getEmployerMarkets()">
+            </div>
+
+            <input class="btn" type="submit" name="submit" value="Login">
+        </form>
+        <div class="login-footer">
+            <span>Don't have an market? Make right <a href="userregister.php">there!</a></span>
+        </div>
+    </div>
+</body>
+</html>

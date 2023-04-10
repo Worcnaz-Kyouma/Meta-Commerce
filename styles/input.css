@@ -1,0 +1,21 @@
+input:not([type="submit"], [type="file"]){
+    border: 2px solid black;
+    border-radius: 7px 0px;
+
+    padding: 4px;
+
+    background-color: transparent;
+}
+
+input[type="submit"]{
+    border: 0px;
+    border-radius: 15px;
+
+    font-size: 14px;
+    
+    padding: 3px;
+}
+
+input:focus{
+    outline: none;
+}
