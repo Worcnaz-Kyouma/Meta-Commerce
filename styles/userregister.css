@@ -1,6 +1,6 @@
 :root{
-    --login-header-background-color: #0F997D;
-    --login-container-background-color: #d8e2ed;
+    --register-header-background-color: #0F997D;
+    --register-container-background-color: #d8e2ed;
 }
 
 body{
@@ -27,7 +27,7 @@ form{
 
     box-shadow: 2px 2px 6px 1px;
 
-    background-color: var(--login-container-background-color);
+    background-color: var(--register-container-background-color);
 }
 
 div.register-header{
@@ -41,7 +41,7 @@ div.register-header{
     border-top-right-radius: 15px;
     border-top-left-radius: 15px;
 
-    background-color: var(--login-header-background-color);
+    background-color: var(--register-header-background-color);
 }
 
 div.register-header p{
@@ -100,5 +100,5 @@ div.additional-location-inputs .ds_address-wrapper{
 
 #nr_address{
     width: 50px;
-    margin-right: 20px;
+    margin-right: 18px;
 }

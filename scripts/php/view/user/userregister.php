@@ -82,7 +82,8 @@ function manageImgFromForm($email){
     <link rel="stylesheet" href="../../../../styles/style.css">
     <link rel="stylesheet" href="../../../../styles/button.css">
     <link rel="stylesheet" href="../../../../styles/input.css">
-    <link rel="stylesheet" href="../../../../styles/defaultlogin.css">
+    <link rel="stylesheet" href="../../../../styles/forminput.css">
+    <link rel="stylesheet" href="../../../../styles/defaultimgpicker.css">
     <link rel="stylesheet" href="../../../../styles/userregister.css">
 </head>
 

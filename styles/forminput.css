@@ -1,0 +1,18 @@
+:root{
+    --header-background-color: #0F997D;
+    --container-background-color: #d8e2ed;
+}
+
+input:not([type="submit"], [type="file"]){
+    border: transparent;
+
+    border-bottom: 2px solid var(--header-background-color);
+    border-right: 2px solid var(--header-background-color);
+
+    background-color: var(--container-background-color);
+    filter: brightness(109%);
+}
+
+input:focus:not([type="submit"], [type="file"]){
+    border: 1px solid var(--header-background-color);
+}
