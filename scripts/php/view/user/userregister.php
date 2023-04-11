@@ -84,6 +84,7 @@ function manageImgFromForm($email){
     <link rel="stylesheet" href="../../../../styles/input.css">
     <link rel="stylesheet" href="../../../../styles/forminput.css">
     <link rel="stylesheet" href="../../../../styles/defaultimgpicker.css">
+    <link rel="stylesheet" href="../../../../styles/defaultregister.css">
     <link rel="stylesheet" href="../../../../styles/userregister.css">
 </head>
 
@@ -159,7 +160,7 @@ function manageImgFromForm($email){
             <input class="btn" type="submit" name="submit" value="Submit">
         </div>
     </form>
-    <script src="../../../javascript/userregister.js"></script>
+    <script src="../../../javascript/defaultregister.js"></script>
 </body>
 
 </html>

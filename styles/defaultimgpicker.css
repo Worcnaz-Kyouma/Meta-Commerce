@@ -2,7 +2,7 @@ input[type="file"]{
     display: none;
 }
 
-div.img-wrapper{
+.img-wrapper{
     position: absolute;
     top:-70px;
     left: 8%;
@@ -44,4 +44,13 @@ div.img-wrapper>label>p{
     color: white;
     font-size: 32px;
     z-index: -2;
+
+    transform: scale(1);
+    transition: transform 0.4s;
+}
+
+div.img-wrapper>label>p:hover{
+    transform: scale(1.5);
+
+    transition: all 0.4s;
 }

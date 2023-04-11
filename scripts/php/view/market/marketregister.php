@@ -132,49 +132,63 @@ function insertIntoMarketEmployerRelation($user, $market){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market Register</title>
     <link rel="stylesheet" href="../../../../styles/style.css">
+    <link rel="stylesheet" href="../../../../styles/button.css">
+    <link rel="stylesheet" href="../../../../styles/input.css">
+    <link rel="stylesheet" href="../../../../styles/forminput.css">
+    <link rel="stylesheet" href="../../../../styles/defaultimgpicker.css">
+    <link rel="stylesheet" href="../../../../styles/defaultregister.css">
     <link rel="stylesheet" href="../../../../styles/marketregister.css">
 </head>
 
 <body>
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
-        <div class="user-form">
-            <label for="ds_email_user">User: </label>
-            <input type="text" name="ds_email_user" id="ds_email_user"><br>
+        <div class="register-header">
+            <p>Market Register</p>
+        </div>
+
+        <div class="user-selector">
+            <div class="input-wrapper">
+                <label for="ds_email_user">Boss User: </label>
+                <input type="text" name="ds_email_user" id="ds_email_user">
+            </div>
           
-            <label for="cd_password">Password: </label>
-            <input type="password" name="cd_password" id="cd_password"><br>
+            <div class="input-wrapper">
+                <label for="cd_password">Password: </label>
+                <input type="password" name="cd_password" id="cd_password">
+            </div>
         </div>
 
-        <div class="market-form">
-            <!--pk_id_market we fill in database with auto_increment-->
-            <div id="image-container"></div>
+        <div class="market-inputs">
+            <div class="img-wrapper">
+                <label class="image-choicer" for="image">
+                    <img src="" alt="">
+                    <p id="new-img">+</p>
+                </label>
+                <input type="file" name="image" id="image" accept="image/*" onchange="previewFile(this);">
+            </div>
 
-            <label for="image">Image: </label>
-            <input type="file" name="image" id="image" accept="image/*"><br>
+            <div class="input-wrapper">
+                <label for="nm_market">Market Name: </label>
+                <input type="text" name="nm_market" id="nm_market">
+            </div>
 
-            <label for="nm_market">Name: </label>
-            <input type="text" name="nm_market" id="nm_market"><br>
+            <div class="input-wrapper">
+                <label for="ds_email">Email: </label>
+                <input type="text" name="ds_email" id="ds_email">
+            </div>
 
-            <label for="ds_email">Email: </label>
-            <input type="text" name="ds_email" id="ds_email"><br>
-
-            <!--nm_img we fill in the back-end-->
-
-            <label for="dt_market_creation">Creation date: </label>
-            <input type="date" name="dt_market_creation" id="dt_market_creation"><br>
-
-            <!--ds_market we fill in back-end... Or comes with edition of the market? Doenst matter to much right now, so we gonna send empty-->
-
-            <!--ie_status we fill in back-end-->
-
-            <!--dt_creation we fill in back-end-->
-            <!--dt_update we fill in back-end-->
+            <div class="input-wrapper">
+                <label for="dt_market_creation">Creation date: </label>
+                <input type="date" name="dt_market_creation" id="dt_market_creation">
+            </div>
         </div>
 
-        <input type="submit" name="submit" value="Submit"><br>
+        <div class="submit-wrapper">
+            <input class="btn" type="submit" name="submit" value="Submit">
+        </div>
     </form>
 
-    <script src="../../../javascript/main.js"></script>
+    <script src="../../../javascript/defaultregister.js"></script>
 </body>
 
 </html>

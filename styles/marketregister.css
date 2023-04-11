@@ -1,0 +1,59 @@
+form{
+    width: 75%;
+    max-width: 500px;
+    height: 70%;
+    min-height: 300px;
+}
+
+form>div{
+    flex-grow: 1;
+    width: 100%;
+}
+
+.img-wrapper{
+    left: auto;
+    right: 8%;
+}
+
+form .register-header{
+    flex-grow: 0;
+    justify-content: start;
+    margin: 0px;
+}
+
+form .register-header>p{
+    font-size: 25px;
+    margin-left: 15px;
+    color: white;
+}
+
+form .user-selector{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: start;
+    align-content: space-around;
+    
+    flex-grow: 3;
+}
+
+form .market-inputs{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: start;
+    align-content: space-around;
+
+    flex-grow: 3;
+}
+
+input{
+    max-width: 100px;
+}
+
+#error{
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+}
