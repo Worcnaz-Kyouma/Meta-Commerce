@@ -16,7 +16,7 @@
         }
         else{
             session_start();
-            $_SESSION['password'] = $user->getNmUser();
+            $_SESSION['email'] = $user->getNmUser();
             header('Location: userlobby.php');
             die();
         }
