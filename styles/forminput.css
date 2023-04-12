@@ -1,6 +1,7 @@
 :root{
     --header-background-color: #0F997D;
     --container-background-color: #d8e2ed;
+    --disabled-input-border-color: #B3001B ;
 }
 
 input:not([type="submit"], [type="file"]){
@@ -11,8 +12,15 @@ input:not([type="submit"], [type="file"]){
 
     background-color: var(--container-background-color);
     filter: brightness(109%);
+
+    transition: all 0.4s;
 }
 
 input:focus:not([type="submit"], [type="file"]){
     border: 1px solid var(--header-background-color);
+}
+
+input:disabled{
+    filter: brightness(90%);
+    border-color: var(--disabled-input-border-color);
 }

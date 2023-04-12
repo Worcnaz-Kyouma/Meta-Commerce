@@ -1,5 +1,14 @@
-function onEmailInputChange() {
-    //validateExistendEmail();
+var markets;
+
+function manageLogoIcon(htmlInput_nm_market) {
+    img = document.getElementsByClassName("icon")[0];
+    if(htmlInput_nm_market.value == null){
+        img.removeAttribute("src");
+    }
+    else{
+        img.setAttribute("src", "../../../../resources/marketsimg/" + markets.filter(market => market.nm_market == htmlInput_nm_market.value)[0].nm_img);
+    }
+
 }
 
 function fillMarketsDataList(markets) {
@@ -32,6 +41,7 @@ function getEmployerMarkets() {
     xhttp.onload = function () {
         const jsonDoc = JSON.parse(this.responseText);
         if(jsonDoc!=null){
+            markets = jsonDoc;
             fillMarketsDataList(jsonDoc);
         }
         else{

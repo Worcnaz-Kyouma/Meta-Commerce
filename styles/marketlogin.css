@@ -1,0 +1,74 @@
+.login-box{
+    width: 30%;
+    min-width: 350px;
+    max-width: 450px;
+
+    height: 55%;
+    min-height: 300px;
+}
+
+.login-box form .market-selector{
+    display: flex;
+    justify-content: space-evenly; 
+    align-items: center;
+    
+    flex-grow: 1;
+
+}
+
+.login-box form .market-selector .img-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    width: 80px;
+    height: 80px;
+
+    border: 2px dotted black;
+    border-radius: 8px;
+
+    padding: 3px;
+}
+
+.icon{
+    width: 100%;
+}
+
+.login-box form .market-selector .market-input-wrapper{
+    display: flex;
+    flex-direction: column;
+
+    text-align: center;
+}
+
+.login-box form .market-selector .market-input-wrapper label{
+    margin-bottom: 10px;
+}
+
+.login-box form .user-selector{
+    display: flex; 
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+    flex-grow: 3;
+}
+
+.login-box form .user-selector :first-child{
+    padding-bottom: 30px;
+}
+
+.login-box form .input-wrapper{
+    justify-content: center;
+}
+
+.login-box form .input-wrapper label{
+    max-width:100px;
+}
+
+.login-box form .input-wrapper input{
+    max-height: 15px;
+    
+    max-width: 200px;
+    flex-grow: 2;
+}

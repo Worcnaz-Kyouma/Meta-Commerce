@@ -61,3 +61,10 @@ header{
   min-width: 68px;
   max-width: 110px;
 }
+
+#error{
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+}

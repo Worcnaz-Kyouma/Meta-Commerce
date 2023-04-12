@@ -3,6 +3,8 @@
 
     require_once '../../controller/usercontroller.php';
 
+    $user="initial";
+
     if(isset($_POST['submit'])){
         $email      = $_POST['email'];
         $password   = $_POST['password'];
@@ -12,7 +14,6 @@
         $user = UserController::select($whereClause)[0];
 
         if(empty($user)){
-            echo "<p id='error'>Cannot find an user with that email/password</p>";
         }
         else{
             session_start();
@@ -34,12 +35,17 @@
     <link rel="stylesheet" href="../../../../styles/button.css">
     <link rel="stylesheet" href="../../../../styles/input.css">
     <link rel="stylesheet" href="../../../../styles/style.css">
-    <link rel="stylesheet" href="../../../../styles/userlogin.css">
+    <link rel="stylesheet" href="../../../../styles/login.css">
     <link rel="stylesheet" href="../../../../styles/forminput.css">
 
 </head>
 
 <body>
+    <?php
+    if(empty($user))
+        echo "<p id='error'>Cannot find an user with that email/password</p>";
+    ?>    
+
     <div class="login-box">
         <div class="login-header">
             <h1>User Login</h1>

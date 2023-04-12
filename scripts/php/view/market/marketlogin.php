@@ -4,6 +4,7 @@
     require_once '../../controller/marketcontroller.php';
     require_once '../../controller/usercontroller.php';
     require_once '../../controller/genericcontroller.php';
+    $error=false;
 
     if(isset($_POST['submit'])){
         $user = getUser($_POST['email'], $_POST['password']);
@@ -18,7 +19,6 @@
         }
 
         if($error){
-            echo "<p id='error'>Cannot find an employer with that email/password in this market</p>";
         }
         else{
             session_start();
@@ -60,32 +60,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market Login</title>
     <link rel="stylesheet" href="../../../../styles/style.css">
+    <link rel="stylesheet" href="../../../../styles/button.css">
+    <link rel="stylesheet" href="../../../../styles/input.css">
+    <link rel="stylesheet" href="../../../../styles/forminput.css">
+    <link rel="stylesheet" href="../../../../styles/login.css">
     <link rel="stylesheet" href="../../../../styles/marketlogin.css">
+
 </head>
 
 <body>
+    <?php
+        if($error){
+        echo "<span id='error'>Cannot find an employer with that email/password in this market</span>";
+        }
+    ?>
+
     <div class="login-box">
-        <div class="login-content">
-            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                <label for="email">Email: </label>
-                <input type="text" name="email" id="email" onchange="getEmployerMarkets()">
-                <br>
-
-                <label for="password">Password: </label>
-                <input type="password" name="password" id="password" onchange="getEmployerMarkets()"><br>
-
-                <label for="market">Market: </label>
-                <input list="markets" name="market" id="market" disabled>
-                <datalist id="markets">
-                </datalist>
-                <br>
-
-                <input type="submit" name="submit" value="Login">
-            </form>
+        <div class="login-header">
+            <h1>Market Login</h1>
         </div>
-        <div class="register-content">
-            <p>Don't have an e-commerce? Make right <a href="marketregister.php">there!</a></p>
-            <!--Coloca um botão ou hyper link no there-->
+
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+        <div class="market-selector">
+                <div class="img-wrapper">
+                    <img class="icon">
+                </div>
+                
+                <div class="market-input-wrapper">
+                    <label for="market">Market </label>
+                    <input list="markets" name="market" id="market" onchange="manageLogoIcon(this)" disabled>
+                    <datalist id="markets">
+                    </datalist>
+                </div>
+            </div>
+            <div class="user-selector">
+                <div class="input-wrapper">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" id="email" onchange="getEmployerMarkets()">
+                </div>
+            
+
+                <div class="input-wrapper">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" onchange="getEmployerMarkets()"><br>
+                </div>
+            </div>
+
+            <input class="btn" type="submit" name="submit" value="Login">
+        </form>
+        
+        <div class="login-footer">
+            <span>Don't have an e-commerce? Make right <a href="marketregister.php">there!</a></span>
         </div>
     </div>
 
