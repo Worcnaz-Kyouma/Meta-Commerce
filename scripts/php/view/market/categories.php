@@ -80,7 +80,7 @@ function getAllCategories($fk_id_market){
         }
         ?>
         <tr>
-            <td onclick="location.href = 'product.php';" colspan="100%">+</td>
+            <td onclick="location.href = 'category.php';" colspan="100%">+</td>
         </tr>
     </table>
     
