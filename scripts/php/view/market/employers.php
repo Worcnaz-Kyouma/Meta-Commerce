@@ -20,13 +20,18 @@ if(isset($_SESSION['pk_id_user']) && isset($_SESSION['pk_id_market'])){
     standardValidateForMarket($additionalEmployerData);
 
     if($additionalEmployerData->ds_role != "Boss"){
-        header('Location: marketlobby.php');
+        session_destroy();
+        header('Location: marketregister.php');
         die();
     }
     else{
         $marketEmployers = getAllEmployers($_SESSION['pk_id_market']);
     }
 }//Session/Boss validation and getAllEmployers
+else{
+    header('Location: marketlogin.php');
+    die();
+}
 
 function getAllEmployers($fk_id_market){
     $columns = array("e.*", "u.nm_user");
@@ -45,10 +50,19 @@ function getAllEmployers($fk_id_market){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employers</title>
     <link rel="stylesheet" href="../../../../styles/style.css">
-    <link rel="stylesheet" href="../../../../styles/employers.css">
+    <link rel="stylesheet" href="../../../../styles/button.css">
+    <link rel="stylesheet" href="../../../../styles/table.css">
 </head>
 <body>
-    <a href="marketlobby.php">Back</a>
+<header>
+        <div class="btn-options">
+            <button class="btn-option" onclick="location.href = 'products.php'" >Products</button>
+            <button class="btn-option" onclick="location.href = 'employers.php'" disabled> Employers</button>
+            <button class="btn-option" onclick="location.href = 'categories.php'">Categories</button>
+        </div>
+        <button id="logout-btn" class="btn" type="button" onclick="logout()">Log-out</button>
+    </header>
+
     <table>
         <tr>
           <th>ID</th>
@@ -68,9 +82,11 @@ function getAllEmployers($fk_id_market){
             ";
         }
         ?>
+        <tr>
+            <td onclick="location.href = 'product.php';" colspan="100%">+</td>
+        </tr>
     </table>
-    <div onclick="location.href = 'employer.php';" id="end-of-table">+</div>
 
-    <script src="../../../javascript/employers.js"></script>
+    <script src="../../../javascript/market.js"></script>
 </body>
 </html>

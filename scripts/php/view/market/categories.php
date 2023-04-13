@@ -22,6 +22,10 @@ if(isset($_SESSION['pk_id_user']) && isset($_SESSION['pk_id_market'])){
 
     $marketCategories = getAllCategories($_SESSION['pk_id_market']);
 }//Session validation and getAllCategories
+else{
+    header('Location: marketlogin.php');
+    die();
+}
 
 function getAllCategories($fk_id_market){
     $whereClause = 'fk_id_market = ' . $fk_id_market . ' and ' . "ie_deleted = 'NO'";
@@ -38,10 +42,22 @@ function getAllCategories($fk_id_market){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Categories</title>
     <link rel="stylesheet" href="../../../../styles/style.css">
-    <link rel="stylesheet" href="../../../../styles/categories.css">
+    <link rel="stylesheet" href="../../../../styles/button.css">
+    <link rel="stylesheet" href="../../../../styles/table.css">
 </head>
 <body>
-    <a href="marketlobby.php">Back</a>
+    <header>
+        <div class="btn-options">
+            <button class="btn-option" onclick="location.href = 'products.php'" >Products</button>
+            <?php 
+            if($additionalEmployerData->ds_role == "Boss") 
+                echo "<button class=\"btn-option\" onclick=\"location.href = 'employers.php'\"> Employers</button>"
+            ?>
+            <button class="btn-option" onclick="location.href = 'categories.php'" disabled>Categories</button>
+        </div>
+        <button id="logout-btn" class="btn" type="button" onclick="logout()">Log-out</button>
+    </header>
+
     <table>
         <tr>
             <th>ID</th>
@@ -63,7 +79,11 @@ function getAllCategories($fk_id_market){
             ";
         }
         ?>
+        <tr>
+            <td onclick="location.href = 'product.php';" colspan="100%">+</td>
+        </tr>
     </table>
-    <div onclick="location.href = 'category.php';" id="end-of-table">+</div>
+    
+    <script src="../../../javascript/market.js"></script>
 </body>
 </html>

@@ -4,6 +4,7 @@
     require_once '../../controller/marketcontroller.php';
     require_once '../../controller/usercontroller.php';
     require_once '../../controller/genericcontroller.php';
+
     $error=false;
 
     if(isset($_POST['submit'])){
@@ -24,7 +25,7 @@
             session_start();
             $_SESSION['pk_id_user'] = $user->getPkIdUser();
             $_SESSION['pk_id_market'] = $market->getPkIdMarket();
-            header('Location: marketlobby.php');
+            header('Location: products.php');
             die();
         }
     } 
