@@ -13,7 +13,7 @@ input:not([type="submit"], [type="file"]){
     background-color: var(--container-background-color);
     filter: brightness(109%);
 
-    transition: all 0.4s;
+    transition: all 0.2s;
 }
 
 input:focus:not([type="submit"], [type="file"]){
@@ -23,4 +23,27 @@ input:focus:not([type="submit"], [type="file"]){
 input:disabled{
     filter: brightness(90%);
     border-color: var(--disabled-input-border-color);
+}
+
+textarea{
+    border: transparent;
+
+    resize: none;
+
+    border-bottom: 2px solid var(--header-background-color);
+
+    background-color: var(--container-background-color);
+    filter: brightness(109%);
+
+    border-radius: 7px 0px;
+
+    outline: none;
+
+    font-size: 15px;
+
+    transition: all 0.2s; 
+}
+
+textarea:focus{
+    border: 1px solid var(--header-background-color);
 }

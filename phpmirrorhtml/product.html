@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product</title>
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/input.css">
+    <link rel="stylesheet" href="../styles/forminput.css">
+    <link rel="stylesheet" href="../styles/register.css">
+    <link rel="stylesheet" href="../styles/product.css">
+</head>
+<body>
+    <main>
+        <div class="register-header">
+            <h1>Product</h1>
+        </div>
+
+        <form action="" method="post" enctype="multipart/form-data">
+            <div class="img-name-category-wrapper">
+                <div class="img-wrapper">
+                    <label class="image-choicer" for="image">
+                        <img src="" alt="">
+                        <p id="new-img">+</p>
+                    </label>
+                    <input type="file" name="image" id="image" accept="image/*" onchange="previewFile(this);">
+                </div>
+
+                <div class="name-category-wrapper">
+                    <div class="input-wrapper">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="category">Category</label>
+                        <input type="text" name="category" id="category">
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-wrapper">
+                <label for="mark">Mark</label>
+                <input type="text" name="mark" id="mark">
+            </div>
+
+            <div class="input-wrapper">
+                <label for="fab">Fabrication</label>
+                <input type="date" name="fab" id="fab">
+            </div>
+
+            <div id="description-wrapper" class="input-wrapper">
+                <label for="desc">Description</label>
+                <textarea name="desc" id="desc" ></textarea>
+            </div>
+
+            <div class="input-wrapper price-wrapper">
+                <label for="salary">Salary</label>
+                <input type="number" name="salary" id="salary" min="1" step="any">
+            </div>
+
+            <div class="input-wrapper">
+                <label for="sold">Sold</label>
+                <input type="checkbox" value="yes" name="sold" id="sold">
+            </div>
+        </form>
+
+        <div class="register-footer">
+            <input type="submit" class="submit-btn" id="btn-edit">Edit</button>
+            <button class="submit-btn" id="btn-create">Create</button>
+            <button class="submit-btn" id="btn-delete">Delete</button>
+        </div>
+    </main>
+
+    <script src="../scripts/javascript/defaultregister.js"></script>
+</body>
+</html>

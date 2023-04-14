@@ -38,7 +38,9 @@ if (isset($_POST['submit'])) {
 
         $newProductArray['pk_id_product'] = getNumOfProductsOfMarket($_SESSION['pk_id_market'])+1;
         $newProductArray['fk_id_market'] = $_SESSION['pk_id_market'];
-        $newProductArray['fk_id_category'] = getCategoryPkByName($_POST['nm_category']);
+        $newProductArray['fk_id_category'] = 1;
+        //getCategoryPkByName($_POST['nm_category']) ainda nao temos nenhuma categoria criada! Ai dara erro aqui nos testes;
+
         $newProductArray['nm_product'] = $_POST['nm_product'];
         $newProductArray['nm_img'] = manageImgFromForm($newProductArray['pk_id_product']);
         $newProductArray['ds_product'] = $_POST['ds_product'];
@@ -128,7 +130,7 @@ function manageImgFromForm($pk_id_product){
     }
 
     // Generate img name
-    $image_name="img" .$pk_id_product . ".jpg";
+    $image_name="img" .$pk_id_product . substr($image_file["name"], strrpos($image_file["name"], '.'), strlen($image_file["name"]) - 1);
 
     // Move the file his correct place
     move_uploaded_file(
@@ -176,116 +178,78 @@ function updateProduct($updatedProduct){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product</title>
     <link rel="stylesheet" href="../../../../styles/style.css">
-    <link rel="stylesheet" href="../../../../styles/input.css">
-    <link rel="stylesheet" href="../../../../styles/forminput.css">
-    <link rel="stylesheet" href="../../../../styles/register.css">
-    <link rel="stylesheet" href="../../../../styles/product.css">
 </head>
 <body>
-    <main>
-        <div class="register-header">
-            <h1>Product</h1>
-        </div>
-        <form id="myform" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">
-            <div class="img-name-category-wrapper">
-                <div class="img-wrapper">
-                    <label class="image-choicer" for="image">
-                        <img 
-                        <?php
-                        if(isset($selectedProduct)){
-                            echo "src = " . "../../../../resources/productsimg/". $selectedProduct->nm_img;
-                        }
-                        ?> alt="">
-                        <p id="new-img">+</p>
-                    </label>
-                    <input type="file" name="image" id="image" accept="image/*" onchange="previewFile(this);">
-                </div>
+    <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">
+        <div id="image-container"></div>
+        <label for="image">Image: </label>
+        <input type="file" name="image" id="image" accept="image/*"><br>
+        <!--Aqui vai ser o seguinte, se o usuario nao colocar nada o servidor nao vai mudar a imagem do produto. Mas caso ele mude, bom, tudo que ira acontecer é que a imagem no servidor mudará, mas o nome em si não!-->
 
-                <div class="name-category-wrapper">
-                    <div class="input-wrapper">
-                        <label for="nm_product">Name</label>
-                        <input type="text" name="nm_product" id="nm_product"
-                        <?php
-                        if(isset($selectedProduct)){
-                            echo "value = " . $selectedProduct->nm_product;
-                        }
-                        ?>>
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="nm_category">Category</label>
-                        <input type="text" name="nm_category" id="nm_category" 
-                        <?php
-                        if(isset($selectedProduct)){
-                            echo "value = " . $selectedProduct->nm_category;
-                        }
-                        ?>>
-                    </div>
-                </div>
-            </div>
-
-            <div class="input-wrapper">
-                <label for="ds_mark">Mark</label>
-                <input type="text" name="ds_mark" id="ds_mark"
-                <?php
-                if(isset($selectedProduct)){
-                    echo "value = " . $selectedProduct->ds_mark;
-                }
-                ?>>
-            </div>
-
-            <div class="input-wrapper">
-                <label for="dt_fabrication">Fabrication date</label>
-                <input type="date" name="dt_fabrication" id="dt_fabrication" 
-                <?php
-                if(isset($selectedProduct)){
-                    echo "value = " . $selectedProduct->dt_fabrication;
-                }
-                ?>>
-            </div>
-
-            <div id="description-wrapper" class="input-wrapper">
-                <label for="ds_product">Description</label>
-                <textarea name="ds_product" id="ds_product"><?php
-                    if(isset($selectedProduct)){            
-                        echo htmlspecialchars($selectedProduct->ds_product);
-                    }
-                ?></textarea>
-            </div>
-
-            <div class="input-wrapper price-wrapper">
-                <label for="vl_price">Price</label>
-                <input type="number" name="vl_price" id="vl_price" min="1" step="any" 
-                <?php
-                if(isset($selectedProduct)){
-                    echo "value = " . $selectedProduct->vl_price;
-                }
-                ?>>
-            </div>
-
-            <div class="input-wrapper">
-                <label for="ie_selled">Sold</label>
-                <input type="checkbox" value="YES" name="ie_selled" id="ie_selled"  
-                <?php
-                if(isset($selectedProduct) && $selectedProduct->ie_selled == "YES"){
-                        echo "checked";
-                }
-                ?>>
-            </div>
-        </form>
-        <div class="register-footer">
+        <label for="nm_category">Category: </label>
+        <input type="text" name="nm_category" id="nm_category" 
         <?php
-            if(!isset($selectedProduct)){
-                echo "<input class=\"submit-btn\" id=\"btn-create\" form=\"myform\" type=\"submit\" name=\"submit\" value=\"Submit\">";
-            }
-            else{
-                echo "<input class=\"submit-btn\" id=\"btn-edit\" form=\"myform\" type=\"submit\" name=\"submit\" value=\"Update\">";
-                
-                echo "<input class=\"submit-btn\" id=\"btn-delete\" form=\"myform\" type=\"submit\" name=\"submit\" value=\"Delete\">";
-            }
-        ?>
-        </div>
-    </main>
+        if(isset($selectedProduct)){
+            echo "value = " . $selectedProduct->nm_category;
+        }
+        ?>><br>
 
-    <script src="../../../javascript/defaultregister.js"></script>
+        <label for="nm_product">Name: </label>
+        <input type="text" name="nm_product" id="nm_product" 
+        <?php
+        if(isset($selectedProduct)){
+            echo "value = " . $selectedProduct->nm_product;
+        }
+        ?>><br>
+
+        <label for="ds_product">Description: </label>
+        <input type="text" name="ds_product" id="ds_product" 
+        <?php
+        if(isset($selectedProduct)){
+            echo "value = " . $selectedProduct->ds_product;
+        }
+        ?>><br>
+
+        <label for="vl_price">Price: </label>
+        <input type="number" name="vl_price" id="vl_price" 
+        <?php
+        if(isset($selectedProduct)){
+            echo "value = " . $selectedProduct->vl_price;
+        }
+        ?>><br>
+
+        <label for="ds_mark">Mark: </label>
+        <input type="text" name="ds_mark" id="ds_mark" 
+        <?php
+        if(isset($selectedProduct)){
+            echo "value = " . $selectedProduct->ds_mark;
+        }
+        ?>><br>
+
+        <label for="dt_fabrication">Fabrication date: </label>
+        <input type="date" name="dt_fabrication" id="dt_fabrication" <?php
+        if(isset($selectedProduct)){
+            echo "value = " . $selectedProduct->dt_fabrication;
+        }
+        ?>><br>
+
+        <label for="ie_selled">Selled: </label>
+        <input type="text" name="ie_selled" id="ie_selled" 
+        <?php
+        if(isset($selectedProduct)){
+            echo "value = " . $selectedProduct->ie_selled;
+        }
+        ?>><br>
+
+        <?php
+        if(!isset($selectedProduct)){
+            echo "<input type=\"submit\" name=\"submit\" value=\"Submit\"><br>";
+        }
+        else{
+            echo "<input type=\"submit\" name=\"submit\" value=\"Update\"><br>";
+            echo "<input type=\"submit\" name=\"submit\" value=\"Delete\"><br>";
+        }
+        ?>
+    </form>
 </body>
 </html>
