@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category</title>
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/input.css">
+    <link rel="stylesheet" href="../styles/forminput.css">
+    <link rel="stylesheet" href="../styles/register.css">
+    <link rel="stylesheet" href="../styles/category.css">
+</head>
+<body>
+    <main>
+        <div class="register-header">
+            <h1>Category</h1>
+        </div>
+
+        <form id="myForm" action="" method="post" enctype="multipart/form-data">
+            <div class="input-wrapper">
+                <label for="nm_category">Category</label>
+                <input type="text" name="nm_category" id="nm_category" >
+            </div>
+
+            <div id="description-wrapper" class="input-wrapper description-wrapper">
+                <label for="ds_category">Description</label>
+                <input type="text" name="ds_category" id="ds_category" >
+            </div>
+
+            <div class="input-wrapper color-wrapper">
+                <label for="cd_color">Color</label>
+                <input type="color" name="cd_color" id="cd_color">
+            </div>
+        </form>
+
+        <div class="register-footer">
+            <input class="submit-btn" id="btn-create" form="myForm" type="submit" name="submit" value="Submit">
+            <input class="submit-btn" id="btn-edit" form="myForm" type="submit" name="submit" value="Update">
+            <input class="submit-btn" id="btn-delete" form="myForm" type="submit" name="submit" value="Delete">
+        </div>
+    </main>
+</body>
+</html>

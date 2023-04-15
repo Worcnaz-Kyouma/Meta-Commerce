@@ -119,42 +119,60 @@ function updateCategory($updatedCategory){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Category</title>
     <link rel="stylesheet" href="../../../../styles/style.css">
+    <link rel="stylesheet" href="../../../../styles/input.css">
+    <link rel="stylesheet" href="../../../../styles/forminput.css">
+    <link rel="stylesheet" href="../../../../styles/register.css">
+    <link rel="stylesheet" href="../../../../styles/category.css">
 </head>
 <body>
-    <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">
-        <label for="nm_category">Category: </label>
-        <input type="text" name="nm_category" id="nm_category" 
-        <?php
-        if(isset($selectedCategory)){
-            echo "value = " . $selectedCategory->getNmCategory();
-        }
-        ?>><br>
+    <main>
+        <div class="register-header">
+            <h1>Category</h1>
+        </div>
 
-        <label for="ds_category">Description: </label>
-        <input type="text" name="ds_category" id="ds_category" 
-        <?php
-        if(isset($selectedCategory)){
-            echo "value = " . $selectedCategory->getDsCategory();
-        }
-        ?>><br>
+        <form id="myform" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">
+            <div class="input-wrapper">
+                <label for="nm_category">Category</label>
+                <input type="text" name="nm_category" id="nm_category" 
+                <?php
+                if(isset($selectedCategory)){
+                    echo "value = " . $selectedCategory->getNmCategory();
+                }
+                ?>>
+            </div>
 
-        <label for="cd_color">Color: </label>
-        <input type="color" name="cd_color" id="cd_color" 
-        <?php
-        if(isset($selectedCategory)){
-            echo "value = " . $selectedCategory->getCdColor();
-        }
-        ?>><br>
+            <div class="input-wrapper description-wrapper">
+                <label for="ds_category">Description: </label>
+                <textarea name="ds_category" id="ds_category"><?php
+                    if(isset($selectedCategory)){            
+                        echo htmlspecialchars($selectedCategory->getDsCategory());
+                    }
+                ?></textarea>
+            </div>
 
+            <div class="input-wrapper color-wrapper">
+                <label for="cd_color">Color: </label>
+                <input type="color" name="cd_color" id="cd_color" 
+                <?php
+                if(isset($selectedCategory)){
+                    echo "value = " . $selectedCategory->getCdColor();
+                }
+                ?>>
+            </div>
+        </form>
+
+        <div class="register-footer">
         <?php
-        if(!isset($selectedCategory)){
-            echo "<input type=\"submit\" name=\"submit\" value=\"Submit\"><br>";
-        }
-        else{
-            echo "<input type=\"submit\" name=\"submit\" value=\"Update\"><br>";
-            echo "<input type=\"submit\" name=\"submit\" value=\"Delete\"><br>";
-        }
-        ?>
-    </form>
+            if(!isset($selectedCategory)){
+                echo "<input class=\"submit-btn\" id=\"btn-create\" form=\"myform\" type=\"submit\" name=\"submit\" value=\"Submit\">";
+            }
+            else{
+                echo "<input class=\"submit-btn\" id=\"btn-edit\" form=\"myform\" type=\"submit\" name=\"submit\" value=\"Update\">";
+                
+                echo "<input class=\"submit-btn\" id=\"btn-delete\" form=\"myform\" type=\"submit\" name=\"submit\" value=\"Delete\">";
+            }
+            ?>
+        </div>
+    </main>
 </body>
 </html>

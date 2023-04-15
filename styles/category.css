@@ -1,0 +1,47 @@
+main{
+    min-width: 375px;
+    width: 25%;
+    min-height: 400px;
+    height: 65%;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.input-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input{
+    width: 40%;
+}
+
+textarea{
+    width: 60%;
+}
+
+.input-wrapper>input,textarea{
+    margin-top: 10px;
+}
+
+.color-wrapper{
+    height: 25%;
+}
+
+#cd_color{
+    border-radius: 5px 5px;
+    width: 24%;
+    height: 100%;
+}
+
+.description-wrapper{
+    height: 35%;
+}
+
+#ds_category{
+    height: 100%;
+}
