@@ -124,7 +124,7 @@ function validateChangeEmployer($fk_id_market, $pk_id_employer){
 }
 function validateNewEmployer($fk_id_market, $fk_id_user){
     $column = "e.pk_id_employer";
-    $table = "employers e";
+    $table = "employer e";
     $whereClause = "e.fk_id_market = " . $fk_id_market . " and " . "e.fk_id_user = ". $fk_id_user . " and " . "e.ie_deleted = 'NO'"; 
     $numOfEmployers = GenericController::select($column, $table, $whereClause);
     if(!empty($numOfEmployers))
@@ -161,62 +161,80 @@ function updateEmployer($employerData){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../../../../styles/style.css">
+    <link rel="stylesheet" href="../../../../styles/input.css">
+    <link rel="stylesheet" href="../../../../styles/forminput.css">
+    <link rel="stylesheet" href="../../../../styles/register.css">
+    <link rel="stylesheet" href="../../../../styles/employer.css">
 </head>
 <body>
-    <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
-        <div>
-            <p>
-                <?php
-                if(isset($employer))
-                    echo $employer->getNmImg();
-                else
-                    echo 'user_img';
-                ?>
-            </p>
+    <main>
+        <div class="register-header">
+            <h1>Employer</h1>
         </div>
 
-        <label for="ds_email">Name: </label>
-        <input list="employers" name="ds_email" id="ds_email" 
-        <?php
-        if(isset($employer)){
-            echo "value = " . $employer->getDsEmail() . " ";
-            echo "readonly ";
-            echo "disabled";
-        }
-        ?>
-        >
-        <datalist id="employers">
-        </datalist>
-        <br>
+        <form id="myform" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+            <div class="employer-box">
+                <div class="img-wrapper">
+                    <img class="icon"
+                    <?php
+                    if(isset($employer))
+                        echo "src = " . "../../../../resources/usersimg/" . $employer->getNmImg();
+                    ?>>
+                </div>
 
-        <label for="ds_role">Role: </label>
-        <input type="text" name="ds_role" id="ds_role"
-        <?php
-        if(isset($employer)){
-            echo "value = " . $selectedEmployerAdditionalData->ds_role;
-        }
-        ?>
-        ><br>
+                <div class="employer-input-wrapper">
+                    <label for="ds_email">Email </label>
+                    <input list="employers" name="ds_email" id="ds_email"
+                    onchange="manageLogoIcon(this)"
+                    <?php
+                    if(isset($employer)){
+                        echo "value = " . $employer->getDsEmail() . " ";
+                        echo "readonly ";
+                        echo "disabled";
+                    }
+                    ?>
+                    >
+                    <datalist id="employers">
+                    </datalist>
+                </div>
+            </div>
 
-        <label for="vl_salary">Salary: </label>
-        <input type="number" name="vl_salary" id="vl_salary"
-        <?php
-        if(isset($employer)){
-            echo "value = " . $selectedEmployerAdditionalData->vl_salary;
-        }
-        ?>
-        ><br>
+            <div class="input-wrapper">
+                <label for="ds_role">Role: </label>
+                <input type="text" name="ds_role" id="ds_role"
+                <?php
+                if(isset($employer)){
+                    echo "value = " . $selectedEmployerAdditionalData->ds_role;
+                }
+                ?>
+                >
+            </div>
 
+            <div class="input-wrapper">
+                <label for="vl_salary">Salary: </label>
+                <input type="number" name="vl_salary" id="vl_salary"
+                <?php
+                if(isset($employer)){
+                    echo "value = " . $selectedEmployerAdditionalData->vl_salary;
+                }
+                ?>
+                >
+            </div>
+        </form>
+
+        <div class="register-footer">
         <?php
-        if(!isset($employer)){
-            echo "<input type=\"submit\" name=\"submit\" value=\"Submit\"><br>";
-        }
-        else{
-            echo "<input type=\"submit\" name=\"submit\" value=\"Update\"><br>";
-            echo "<input type=\"submit\" name=\"submit\" value=\"Dismiss\"><br>";
-        }
+            if(!isset($employer)){
+                echo "<input class=\"submit-btn\" id=\"btn-create\" form=\"myform\" type=\"submit\" name=\"submit\" value=\"Submit\">";
+            }
+            else{
+                echo "<input class=\"submit-btn\" id=\"btn-edit\" form=\"myform\" type=\"submit\" name=\"submit\" value=\"Update\">";
+                
+                echo "<input class=\"submit-btn\" id=\"btn-delete\" form=\"myform\" type=\"submit\" name=\"submit\" value=\"Delete\">";
+            }
         ?>
-    </form>
+        </div>
+    </main>
 
     <script src="../../../javascript/employer.js"></script>
 </body>

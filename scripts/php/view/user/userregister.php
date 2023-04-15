@@ -59,7 +59,7 @@ function manageImgFromForm($email){
     }
 
     // Generate img name
-    $image_name="img" .$email . substr($image_file["name"], strrpos($image_file["name"], '.'), strlen($image_file["name"]) - 1);
+    $image_name="img" .$email . ".jpg";
 
     // Move the file his correct place
     move_uploaded_file(

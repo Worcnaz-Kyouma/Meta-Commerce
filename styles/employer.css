@@ -1,0 +1,54 @@
+main{
+    min-width: 375px;
+    width: 25%;
+    min-height: 400px;
+    height: 60%;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.employer-box{
+    display: flex;
+    justify-content: space-evenly; 
+    align-items: center;
+
+    width: 100%;
+}
+
+.img-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    width: 80px;
+    height: 80px;
+
+    border: 2px dotted black;
+    border-radius: 8px;
+
+    padding: 3px;
+}
+
+.icon{
+    width: 100%;
+    height: 100%;
+}
+
+.employer-input-wrapper{
+    display: flex;
+    flex-direction: column;
+
+    text-align: center;
+}
+
+.employer-input-wrapper label{
+    margin-bottom: 10px;
+}
+
+#vl_salary{
+    width: 90px;
+}

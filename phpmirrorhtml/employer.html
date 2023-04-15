@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/input.css">
+    <link rel="stylesheet" href="../styles/forminput.css">
+    <link rel="stylesheet" href="../styles/register.css">
+    <link rel="stylesheet" href="../styles/employer.css">
+</head>
+<body>
+    <main>
+        <div class="register-header">
+            <h1>Employer</h1>
+        </div>
+
+        <form id="myForm" action="" method="post">
+            <div class="employer-box">
+                <div class="img-wrapper">
+                    <img class="icon">
+                </div>
+    
+                <div class="employer-input-wrapper">
+                    <label for="ds_email">Email </label>
+                    <input list="employers" name="ds_email" id="ds_email"
+                    onchange="manageLogoIcon(this)">
+                    <datalist id="employers">
+                    </datalist>
+                </div>
+            </div>
+    
+            <div class="input-wrapper">
+                <label for="ds_role">Role </label>
+                <input type="text" name="ds_role" id="ds_role">
+            </div>
+    
+            <div class="input-wrapper">
+                <label for="vl_salary">Salary </label>
+                <input type="number" name="vl_salary" id="vl_salary">
+            </div>
+        </form>
+
+        <div class="register-footer">
+            <input class="submit-btn" id="btn-create" form="myForm" type="submit" name="submit" value="Submit">
+            <input class="submit-btn" id="btn-edit" form="myForm" type="submit" name="submit" value="Update">
+            <input class="submit-btn" id="btn-delete" form="myForm" type="submit" name="submit" value="Delete">
+        </div>
+    </main>
+
+    <script src="../scripts/javascript/employer.js"></script>
+</body>
+</html>

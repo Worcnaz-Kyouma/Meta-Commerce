@@ -171,7 +171,7 @@ function updateCategory($updatedCategory){
                 
                 echo "<input class=\"submit-btn\" id=\"btn-delete\" form=\"myform\" type=\"submit\" name=\"submit\" value=\"Delete\">";
             }
-            ?>
+        ?>
         </div>
     </main>
 </body>
