@@ -23,6 +23,8 @@ if(isset($_SESSION['pk_id_user']) && isset($_SESSION['pk_id_market'])){
 
 }//Validating session
 
+$marketCategories = getAllCategoriesByMarketPk($_SESSION['pk_id_market']); //Getting all categories of the market
+
 if(isset($_GET['id'])){
     $selectedProduct = getSelectedProduct($_GET['id'], $_SESSION['pk_id_market']);
     
@@ -38,7 +40,7 @@ if (isset($_POST['submit'])) {
 
         $newProductArray['pk_id_product'] = getNumOfProductsOfMarket($_SESSION['pk_id_market'])+1;
         $newProductArray['fk_id_market'] = $_SESSION['pk_id_market'];
-        $newProductArray['fk_id_category'] = getCategoryPkByName($_POST['nm_category']);
+        $newProductArray['fk_id_category'] = $_POST['nm_category'];
         $newProductArray['nm_product'] = $_POST['nm_product'];
         $newProductArray['nm_img'] = manageImgFromForm($newProductArray['pk_id_product']);
         $newProductArray['ds_product'] = $_POST['ds_product'];
@@ -63,8 +65,7 @@ if (isset($_POST['submit'])) {
             if(validateChangeProduct($_SESSION['pk_id_market'], $_GET['id'])){
                 $updatedProductArray = array();
 
-                $updatedProductArray['fk_id_category'] = 1;
-                //getCategoryPkByName($_POST['nm_category']) ainda nao temos nenhuma categoria criada! Ai dara erro aqui nos testes;
+                $updatedProductArray['fk_id_category'] = $_POST['nm_category'];
                 
                 if($_FILES['image']['name'][0]!="")
                     manageImgFromForm($_GET['id']);
@@ -100,16 +101,20 @@ if (isset($_POST['submit'])) {
     }
 }//Saving form
 
+function getAllCategoriesByMarketPk($fk_id_market){
+    $column = '*';
+    $table = 'category';
+    $whereClause = 'fk_id_market = ' . $fk_id_market . ' and ' . "ie_deleted = 'NO'";
+    return GenericController::select($column, $table, $whereClause);
+}
+
 function getNumOfProductsOfMarket($fk_id_market){
     $column = 'count(*) numOfProducts';
     $table = 'product';
     $whereClause = 'fk_id_market = ' . $fk_id_market;
     return GenericController::select($column, $table, $whereClause)[0]->numOfProducts;
 }
-function getCategoryPkByName($nm_category){
-    $whereClause = 'nm_category = ' . "'" . $nm_category . "'";
-    return CategoryController::select($whereClause)[0]->getPkIdCategory();
-}
+
 function manageImgFromForm($pk_id_product){
     // Here we have an weakness for DoS attack, because i dont limit the size of archive sended from form
 
@@ -213,12 +218,20 @@ function updateProduct($updatedProduct){
                     </div>
                     <div class="input-wrapper">
                         <label for="nm_category">Category</label>
-                        <input type="text" name="nm_category" id="nm_category" 
-                        <?php
-                        if(isset($selectedProduct)){
-                            echo "value = " . $selectedProduct->nm_category;
-                        }
-                        ?>>
+                        <select name="nm_category" id="nm_category">
+                            <?php
+                            foreach($marketCategories as $category){
+                                $selectedHtmlProperty = " ";
+                                if(isset($selectedProduct) && $category->pk_id_category==$selectedProduct->fk_id_category){
+                                    $selectedHtmlProperty = " selected=\"selected\"";
+                                }
+                                echo 
+                                "<option value=\"" . $category->pk_id_category ."\"" . $selectedHtmlProperty . ">" 
+                                    . $category->nm_category . 
+                                "</option>";
+                            }
+                            ?>
+                        </select>
                     </div>
                 </div>
             </div>

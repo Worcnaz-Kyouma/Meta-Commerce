@@ -25,6 +25,30 @@ input:disabled{
     border-color: var(--disabled-input-border-color);
 }
 
+select{
+    border-radius: 7px 0px;
+
+    border: transparent;
+
+    border-bottom: 2px solid var(--header-background-color);
+    border-right: 2px solid var(--header-background-color);
+
+    background-color: var(--container-background-color);
+    filter: brightness(109%);
+
+    font-size: 14px;
+
+    padding: 4px;
+
+    transition: all 0.2s; 
+}
+
+select:focus{
+    outline: none;
+    border: 1px solid var(--header-background-color);
+}
+
+
 textarea{
     border: transparent;
 

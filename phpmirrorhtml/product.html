@@ -17,7 +17,7 @@
             <h1>Product</h1>
         </div>
 
-        <form action="" method="post" enctype="multipart/form-data">
+        <form id="myForm" action="" method="post" enctype="multipart/form-data">
             <div class="img-name-category-wrapper">
                 <div class="img-wrapper">
                     <label class="image-choicer" for="image">
@@ -34,7 +34,10 @@
                     </div>
                     <div class="input-wrapper">
                         <label for="category">Category</label>
-                        <input type="text" name="category" id="category">
+                        <select name="category" id="category" form="myForm">
+                            <option value="1">Eletronics</option>
+                            <option value="2">Books</option>
+                          </select>
                     </div>
                 </div>
             </div>
@@ -66,9 +69,9 @@
         </form>
 
         <div class="register-footer">
-            <input type="submit" class="submit-btn" id="btn-edit">Edit</button>
-            <button class="submit-btn" id="btn-create">Create</button>
-            <button class="submit-btn" id="btn-delete">Delete</button>
+            <input class="submit-btn" id="btn-create" form="myform" type="submit" name="submit" value="Submit">
+            <input class="submit-btn" id="btn-edit" form="myform" type="submit" name="submit" value="Update">
+            <input class="submit-btn" id="btn-delete" form="myform" type="submit" name="submit" value="Delete">
         </div>
     </main>
 
