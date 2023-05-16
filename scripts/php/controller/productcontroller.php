@@ -1,5 +1,5 @@
 <?php
-    require_once "C:\\xampp\htdocs\shortcode\Projects\Meta-Commerce\scripts\php\model\productmodel.php";
+    require_once "C:\\xampp\htdocs\Projects\Meta-Commerce\scripts\php\model\productmodel.php";
     class ProductController{
         static function select($whereClause){
             return Product::select($whereClause);

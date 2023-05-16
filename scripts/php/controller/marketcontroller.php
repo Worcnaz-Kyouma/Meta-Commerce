@@ -1,5 +1,5 @@
 <?php
-    require_once "C:\\xampp\htdocs\shortcode\Projects\Meta-Commerce\scripts\php\model\marketmodel.php";
+    require_once "C:\\xampp\htdocs\Projects\Meta-Commerce\scripts\php\model\marketmodel.php";
 
     class MarketController{
         static function select($whereClause){
